@@ -1,0 +1,36 @@
+footer {
+    background-color: #212529;
+    color: #FFF;
+    padding: 30px 0;
+    font-size: 0.9em;
+}
+
+body {
+    background-color: #EEE;
+}
+
+.post-preview {
+    margin: 50px 0;
+}
+
+.copyright, .copyright a {
+    color: #EEE;
+    font-size: 12px !important;
+    margin: 20px 0;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-decoration: none;
+}
+
+.copyright a:hover {
+    color: #0085A1;
+}
+
+.comments {
+    background-color: #FFF;
+    margin-top: 20px;
+    padding: 30px 0;
+}
+
+.pager {
+    margin-bottom: 20px;
+}
