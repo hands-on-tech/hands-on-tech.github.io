@@ -24,7 +24,6 @@ twitter_username: davidcmps
 github_username:  davidcampos
 facebook_username: david.cmps
 linkedin_username: davidmcampos
-rss: feed.xml
 
 # Build settings
 theme: jekyll-theme-clean-blog
