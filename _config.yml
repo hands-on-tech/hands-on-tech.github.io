@@ -39,6 +39,7 @@ plugins:
   - jekyll-remote-theme
   - jekyll-minifier
   - jekyll-sitemap
+  - jekyll-email-protect
   - jemoji
 
 
