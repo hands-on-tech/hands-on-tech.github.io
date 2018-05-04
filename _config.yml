@@ -37,6 +37,8 @@ plugins:
   - jekyll-paginate
   - jekyll-seo-tag
   - jekyll-remote-theme
+  - jekyll-minifier
+  - jekyll-sitemap
   - jemoji
 
 
