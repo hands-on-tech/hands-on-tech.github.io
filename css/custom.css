@@ -34,3 +34,20 @@ body {
 .pager {
     margin-bottom: 20px;
 }
+
+.highlight .lineno {
+    color: #888;
+    font-size: 87.5%;
+    background: #34352d;
+    text-align: center;
+}
+
+.rouge-gutter.gl {
+    background: #34352d;
+    padding: 0 10px;
+    border-right: 1px solid #555;
+}
+
+.rouge-code {
+    padding-left: 10px;
+}

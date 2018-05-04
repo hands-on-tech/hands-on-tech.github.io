@@ -28,10 +28,18 @@ linkedin_username: davidmcampos
 # Build settings
 theme: jekyll-theme-clean-blog
 remote_theme: BlackrockDigital/startbootstrap-clean-blog-jekyll
+
 markdown: kramdown
-highlighter: rouge
+kramdown:
+    highlighter: rouge
+    syntax_highlighter_opts:
+        block:
+            line_numbers: true
+
+
 paginate: 5
 paginate_path: "/posts/page:num/"
+
 plugins:
   - jekyll-feed
   - jekyll-paginate
