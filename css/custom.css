@@ -8,10 +8,15 @@ footer {
 body {
     background-color: #EEE;
     font-size: 18px;
+    text-align: justify;
 }
 
 h1 {
     font-size: 2.1rem;
+}
+
+p a {
+    text-decoration: underline;
 }
 
 .post-preview {
@@ -59,4 +64,10 @@ h1 {
 
 .highlight pre {
     color: #FFF;
+}
+
+.image-center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
 }

@@ -6,6 +6,7 @@ date: 2018-05-01 00:00:00 +0100
 author: David Campos
 categories: 
 comments: true
+read_time: true
 background: '/assets/hello-world/background.jpg'
 ---
 

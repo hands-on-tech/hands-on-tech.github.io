@@ -48,7 +48,9 @@ layout: default
                 {{ site.author }}
               {% endif %}
               on
-              {{ post.date | date: '%B %d, %Y' }}</p>
+              {{ post.date | date: '%B %d, %Y' }}
+              <span style="display: block"><i class="fa fa-clock-o"></i> {% include read_time.html %}</span>
+            </p>
           </article>
 
           <hr>
