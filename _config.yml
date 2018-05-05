@@ -26,7 +26,6 @@ facebook_username: david.cmps
 linkedin_username: davidmcampos
 
 # Build settings
-theme: jekyll-theme-clean-blog
 remote_theme: BlackrockDigital/startbootstrap-clean-blog-jekyll
 
 markdown: kramdown

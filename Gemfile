@@ -10,9 +10,7 @@ gem "github-pages", 182, group: :jekyll_plugins
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
 gem "jekyll", "~> 3.7.3"
-gem "jekyll-theme-clean-blog"
 gem "jekyll-seo-tag", "~> 2.4.0"
-gem "jekyll-remote-theme", "~> 0.2.3"
 
 gem "rouge", "~> 2.2.1"
 gem "kramdown", "~> 1.16.2"
