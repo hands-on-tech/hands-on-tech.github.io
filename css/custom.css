@@ -71,3 +71,18 @@ p a {
     margin-right: auto !important;
     display: block !important;
 }
+
+/*Captions*/
+img + em,
+div + p > em { 
+    display: block;
+    text-align: center;
+    font-size: 0.9em;
+    color: #333;
+    padding-top: 5px;
+}
+/*Specific for code.*/
+div + p > em {
+    padding-top: 0px;
+    margin-top: -25px;
+}
