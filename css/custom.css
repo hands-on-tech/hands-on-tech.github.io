@@ -7,6 +7,11 @@ footer {
 
 body {
     background-color: #EEE;
+    font-size: 18px;
+}
+
+h1 {
+    font-size: 2.1rem;
 }
 
 .post-preview {
@@ -50,4 +55,8 @@ body {
 
 .rouge-code {
     padding-left: 10px;
+}
+
+.highlight pre {
+    color: #FFF;
 }
