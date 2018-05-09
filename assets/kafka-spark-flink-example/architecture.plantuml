@@ -1,0 +1,9 @@
+@startuml
+node "Docker" {
+    [Zookeeper] -> [Kafka]
+    [Producer] --> [Kafka]
+    [Kafka] --> [Kafka Consumer]
+    [Kafka] --> [Spark Consumer]
+    [Kafka] --> [Flink Consumer]
+}
+@enduml

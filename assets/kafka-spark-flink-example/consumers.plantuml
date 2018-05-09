@@ -1,0 +1,22 @@
+@startuml
+package "Kafka Topic" {
+    [Partition 0]
+}
+
+package "Consumer Group Kafka" {
+    [Consumer 0]
+}
+
+package "Consumer Group Spark" {
+    [Consumer 1]
+}
+
+package "Consumer Group Flink" {
+    [Consumer 2]
+}
+
+[Partition 0] --> [Consumer 0]
+[Partition 0] --> [Consumer 1]
+[Partition 0] --> [Consumer 2]
+
+@enduml

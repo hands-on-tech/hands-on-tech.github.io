@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="195px" preserveAspectRatio="none" style="width:595px;height:195px;" version="1.1" viewBox="0 0 595 195" width="595px" zoomAndPan="magnify"><defs><filter height="300%" id="f46ceiva57cop" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--cluster Kafka Topic--><polygon fill="#FFFFFF" filter="url(#f46ceiva57cop)" points="242,16,334,16,341,38.4883,350,38.4883,350,87,242,87,242,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="242" x2="341" y1="38.4883" y2="38.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="86" x="246" y="31.5352">Kafka Topic</text><!--cluster Consumer Group Kafka--><polygon fill="#FFFFFF" filter="url(#f46ceiva57cop)" points="14,112,187,112,194,134.4883,197,134.4883,197,183,14,183,14,112" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="194" y1="134.4883" y2="134.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="167" x="18" y="127.5352">Consumer Group Kafka</text><!--cluster Consumer Group Spark--><polygon fill="#FFFFFF" filter="url(#f46ceiva57cop)" points="205,112,377,112,384,134.4883,387,134.4883,387,183,205,183,205,112" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="205" x2="384" y1="134.4883" y2="134.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="166" x="209" y="127.5352">Consumer Group Spark</text><!--cluster Consumer Group Flink--><polygon fill="#FFFFFF" filter="url(#f46ceiva57cop)" points="395,112,563,112,570,134.4883,573,134.4883,573,183,395,183,395,112" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="395" x2="570" y1="134.4883" y2="134.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="162" x="399" y="127.5352">Consumer Group Flink</text><!--entity Partition 0--><rect fill="#FEFECE" filter="url(#f46ceiva57cop)" height="36.4883" style="stroke: #A80036; stroke-width: 1.5;" width="91" x="250.5" y="43"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="245.5" y="48"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="245.5" y="69.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="71" x="260.5" y="66.5352">Partition 0</text><!--entity Consumer 0--><rect fill="#FEFECE" filter="url(#f46ceiva57cop)" height="36.4883" style="stroke: #A80036; stroke-width: 1.5;" width="104" x="85" y="139"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="80" y="144"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="80" y="165.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="84" x="95" y="162.5352">Consumer 0</text><!--entity Consumer 1--><rect fill="#FEFECE" filter="url(#f46ceiva57cop)" height="36.4883" style="stroke: #A80036; stroke-width: 1.5;" width="104" x="244" y="139"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="239" y="144"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="239" y="165.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="84" x="254" y="162.5352">Consumer 1</text><!--entity Consumer 2--><rect fill="#FEFECE" filter="url(#f46ceiva57cop)" height="36.4883" style="stroke: #A80036; stroke-width: 1.5;" width="104" x="403" y="139"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="398" y="144"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="398" y="165.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="84" x="413" y="162.5352">Consumer 2</text><!--link Partition 0 to Consumer 0--><path d="M257.0901,79.1584 C238.4968,88.3071 216.1705,99.9918 197,112 C185.5049,119.2004 173.4299,127.9922 163.1504,135.8878 " fill="none" id="Partition 0-Consumer 0" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="159.1572,138.979,168.7225,136.6328,163.111,135.9183,163.8255,130.3068,159.1572,138.979" style="stroke: #A80036; stroke-width: 1.0;"/><!--link Partition 0 to Consumer 1--><path d="M296,79.0569 C296,94.5126 296,116.8647 296,133.6731 " fill="none" id="Partition 0-Consumer 1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="296,138.6977,300,129.6977,296,133.6977,292,129.6977,296,138.6977" style="stroke: #A80036; stroke-width: 1.0;"/><!--link Partition 0 to Consumer 2--><path d="M334.9099,79.1584 C353.5032,88.3071 375.8295,99.9918 395,112 C406.4951,119.2004 418.5701,127.9922 428.8496,135.8878 " fill="none" id="Partition 0-Consumer 2" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="432.8428,138.979,428.1745,130.3068,428.889,135.9183,423.2775,136.6328,432.8428,138.979" style="stroke: #A80036; stroke-width: 1.0;"/><!--
+@startuml
+package "Kafka Topic" {
+    [Partition 0]
+}
+
+package "Consumer Group Kafka" {
+    [Consumer 0]
+}
+
+package "Consumer Group Spark" {
+    [Consumer 1]
+}
+
+package "Consumer Group Flink" {
+    [Consumer 2]
+}
+
+[Partition 0] - -> [Consumer 0]
+[Partition 0] - -> [Consumer 1]
+[Partition 0] - -> [Consumer 2]
+
+@enduml
+
+PlantUML version 1.2018.03(Thu Apr 05 17:59:15 WEST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Mac OS X
+OS Version: 10.13.4
+Default Encoding: US-ASCII
+Language: en
+Country: PT
+--></g></svg>
