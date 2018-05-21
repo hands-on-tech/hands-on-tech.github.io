@@ -14,16 +14,16 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Hands on Tech
-author: David Campos
-email: david.marques.campos@gmail.com
-description: Making high-end technology easy to understand with simple experiments.
+author: Hands on Tech
+#email: david.marques.campos@gmail.com
+description: Making high-end technology easy to understand.
 
 baseurl: "/" # the subpath of your site, e.g. /blog
-url: "http://blog.davidcampos.org" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: davidcmps
-github_username:  davidcampos
-facebook_username: david.cmps
-linkedin_username: davidmcampos
+url: "https://hands-on-tech.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+#twitter_username: davidcmps
+github_username:  hands-on-tech
+#facebook_username: david.cmps
+#linkedin_username: davidmcampos
 
 # Build settings
 remote_theme: BlackrockDigital/startbootstrap-clean-blog-jekyll
