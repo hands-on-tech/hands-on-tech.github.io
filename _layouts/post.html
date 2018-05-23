@@ -18,8 +18,15 @@ layout: default
           <h2 class="subheading">{{ page.subtitle }}</h2>
           {% endif %}
           <span class="meta">
-            Posted by <a href="#">{{ page.author }}</a>
-            on {{ page.date | date: '%B %d, %Y' }}</span>
+            Posted on {{ page.date | date: '%B %d, %Y' }}
+            
+            {% if page.author %}
+              {% assign author = site.data.authors[page.author] %}
+              {% if author %}
+                by {% include author.html %}
+              {% endif %}
+            {% endif %}
+          </span>
           {% if page.read_time %}
             <span class="meta">
               <i class="fa fa-clock-o"></i> {% include read_time.html %}

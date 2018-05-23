@@ -3,7 +3,7 @@ layout: post
 title:  "Kafka streaming with Spark and Flink"
 subtitle:  "Example project running on top of Docker with one producer sending words and three different consumers counting the occurrences of each word."
 date:   2018-05-05 00:00:00 +0100
-author: David Campos
+author: david_campos
 tags: java kafka spark flink docker docker-compose
 comments: true
 read_time: true

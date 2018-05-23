@@ -3,7 +3,7 @@ layout: post
 title: "Hello World"
 subtitle: "GitHub Pages deployment"
 date: 2018-05-01 00:00:00 +0100
-author: David Campos
+author: david_campos
 categories: 
 comments: true
 read_time: true

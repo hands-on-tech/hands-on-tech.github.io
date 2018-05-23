@@ -1,0 +1,15 @@
+<a href="mailto:{{ author.email | encode_email }}" target="_blank">{{ author.name }}</a>
+(
+{% if author.site %}
+    <a href="{{ author.site }}" target="_blank"><i class="fa fa-globe"></i></a>
+{% endif %}
+{% if author.linkedin %}
+    <a href="{{ author.linkedin }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+{% endif %}
+{% if author.twitter %}
+    <a href="{{ author.twitter }}" target="_blank"><i class="fa fa-twitter"></i></a>
+{% endif %}
+{% if author.github %}
+    <a href="{{ author.github }}" target="_blank"><i class="fa fa-github"></i></a>
+{% endif %}
+)
