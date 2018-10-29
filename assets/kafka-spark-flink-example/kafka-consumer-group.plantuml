@@ -1,0 +1,45 @@
+@startuml
+left to right direction
+
+node "Producer" {
+}
+
+rectangle "Topic" {
+    node "Broker 1" {
+        [Partition 1]
+        [Partition 4]
+    }
+
+    node "Broker 2" {
+        [Partition 2]
+        [Partition 3]
+    }    
+}
+
+node "Consumer Group A" {
+    [Consumer A1]
+    [Consumer A2]
+}
+
+node "Consumer Group B" {
+    [Consumer B1]
+    [Consumer B2]
+    [Consumer B3]
+    [Consumer B4]
+}
+
+Producer --> Topic
+
+[Partition 1] --> [Consumer A1]
+[Partition 4] --> [Consumer A1]
+
+[Partition 2] --> [Consumer A2]
+[Partition 3] --> [Consumer A2]
+
+[Partition 1] --> [Consumer B1]
+[Partition 4] --> [Consumer B2]
+
+[Partition 2] --> [Consumer B3]
+[Partition 3] --> [Consumer B4]
+
+@enduml

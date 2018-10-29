@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Kafka streaming with Spark and Flink"
-subtitle:  "Example project running on top of Docker with one producer sending words and three different consumers counting the occurrences of each word."
-date:   2018-05-05 00:00:00 +0100
+subtitle:  "Example project running on top of Docker with one producer sending words and three different consumers counting word occurrences."
+date:   2018-10-27 00:00:00 +0100
 author: david_campos
 tags: java kafka spark flink docker docker-compose
 comments: true
@@ -11,73 +11,91 @@ background: '/assets/kafka-spark-flink-example/background.jpg'
 ---
 
 # TL;DR
-Example project taking advantage of Kafka messages streaming communication platform using:
+Sample project taking advantage of Kafka messages streaming communication platform using:
 - 1 data producer sending random numbers in textual format;
-- 3 different data consumers using Kafka, Spark and Flink to count numbers occurrences.
+- 3 different data consumers using Kafka, Spark and Flink to count word occurrences.
 
-Source code is available on [Github](https://github.com/davidcampos/kafka-spark-flink-example){:target="_blank"} with detailed documentation on how to build and run the different software components using Docker.
-
-# Introduction
-
-## Kafka
-[Kafka](https://kafka.apache.org) is becoming the *de-facto* standard messaging platform, enabling large-scale communication between software components producing and consuming streams of data for different purposes. It was originally built at LinkedIn and is currently part of the Apache Software Foundation. By using Kafka, one can implement solutions for:
-- Publish and subscribe: 
-- React to events:
-- Data streaming:
-
-![Kafka](/assets/kafka-spark-flink-example/kafka.png){: .image-center}
-***Figure:** Illustration of Kafka capabilities as a message broker between heterogeneous producers and consumers. Source [https://kafka.apache.org](https://kafka.apache.org).*
-
-[Hundreds of companies](https://cwiki.apache.org/confluence/display/KAFKA/Powered+By){:target="_blank"} already take advantage of Kafka to provide their services, such as Oracle, LinkedIn (obviously), Mozilla and Netflix. As a result, it is being used in may different real-life use cases.
-
-
-For instance, in the IoT context, we can have thousands of devices sending streams of operational data to Kafka, which are then processed and stored for many different purposes. In that context, taking advantage of streaming one can react on real-time to some changes on IoT connected devices.
-
-
-Steve Wilkes provides a more detailed analyses of some real world application examples of Kafka. Please check the article on [LinkedIn](https://www.linkedin.com/pulse/make-most-kafka-real-world-steve-wilkes/){:target="_blank"}.
-
-
-Kafka in Financing analysis
-https://www.confluent.io/blog/real-time-financial-alerts-rabobank-apache-kafkas-streams-api/
-
-
-Kafka Summit San Francisco
-https://www.confluent.io/kafka-summit-sf17/resource/
-
-## Spark
-
-[Spark](https://spark.apache.org){:target="_blank"}
-
-## Flink
-When considering real-time data processing and timeseries 
-
-[Flink](https://flink.apache.org){:target="_blank"}
+**Source code is available on [Github](https://github.com/hands-on-tech/kafka-spark-flink-example){:target="_blank"}** with detailed documentation on how to build and run the different software components using Docker.
 
 # Goal
-- Send words to message broker
-- Consumers should receive messages and count number of words sent
+The main goal of this sample project is to mimic the streaming communication of nowadays IoT solutions. Thus, an infrastructure is required to enable communication between components generating data sent to a centralized infrastructure. Such data is later consumed by other components with different purposes.
+The "Hello World" example project of such solutions is the Word Count problem, were producers send words to a central back-end and consumers count occurrences of each word. In summary, the following actors are involved:
+1. **Producer sends words** in textual format to **message broker**;
+2. **Message broker** receives messages and **sends them to registered consumers**;
+3. **Consumers** process messages and **count occurrences of each word**.
 
-# Architecture
+The architecture illustrated in the next Figure is proposed to achieve the previously mentioned goal, which contains the following components:
+- **Producer**: send words to message broker;
+- **Zookeeper**: service for centralized configuration and synchronization of distributed services. In this case it is required to install and configure Kafka;
+- **Kafka**: message broker to receive messages from producer and propagate them to consumers
+- **Kafka Consumer**: count word occurrences using Kafka;
+- **Spark Consumer**: count work occurrences using Spark;
+- **Flink Consumer**: count work occurrences using Flink.
 
 ![Architecture](/assets/kafka-spark-flink-example/architecture.svg){: .image-center}
 ***Figure:** Illustration of the implementation architecture of the example project.*
 
+Such infrastructure will run on top of **[Docker](https://www.docker.com){:target="_blank"}**, which simplifies the orchestration and setup processes. If we would like to scale-up the example, we can also deploy such example on a large-scale Docker-based orchestration platform, such as [Docker Swarm](https://docs.docker.com/engine/swarm){:target="_blank"} and [Kubernetes](https://kubernetes.io){:target="_blank"}.
+Additionally, the following technologies are also used:
+- **Java 8** as main programming language for producer and consumers. Actually tried to use Java 10 first, but had several problems with Spark and Flink Scala versions;
+- **Maven** for producer and consumers dependency management and build purposes;
+- **Docker Compose** to simplify the process of running multi-container solutions with dependencies.
 
-# Requirements
-In order to achieve he aforementioned goals, the following technologies were used:
-- Java 8 as main programming language for producer and consumers. Actually tried to use Java 10 first, but had several problems with Spark and Flink Scala versions.
-- Maven:
-- Docker: containerization
-- Docker Compose:
+# Kafka
+[Kafka](https://kafka.apache.org){:target="_blank"} is becoming the *de-facto* standard messaging platform, enabling large-scale communication between software components producing and consuming streams of data for different purposes. It was originally built at LinkedIn and is currently part of the Apache Software Foundation. The following Figure illustrates the architecture of solutions using Kafka, with multiple components generating data that is consumed by different consumers for different purposes, making Kafka the communication bridge between them.
+
+![Kafka](/assets/kafka-spark-flink-example/kafka.png){: .image-center}
+***Figure:** Illustration of Kafka capabilities as a message broker between heterogeneous producers and consumers. Source [https://kafka.apache.org](https://kafka.apache.org).*
+
+[Hundreds of companies](https://cwiki.apache.org/confluence/display/KAFKA/Powered+By){:target="_blank"} already take advantage of Kafka to provide their services, such as Oracle, LinkedIn, Mozilla and Netflix. As a result, it is being used in many different real-life use cases for [different purposes](https://kafka.apache.org/uses){:target="_blank"}, such as messaging, website activity tracking, metrics collection, logs aggregation, stream processing and event sourcing.
+For instance, in the IoT context, thousands of devices can send streams of operational data to Kafka, which might processed and stored for many different purposes, such as improved maintenance, enhanced support and functionality optimization. Taking advantage of streaming enables reacting on real-time to relevant changes on connected devices.
+
+## Kafka anatomy in 1 minute
+To better understand how Kafka works, it is important to understand its main concepts:
+- **Record**: consists of a key, a value and a timestamp;
+- **Topic**: category of records;
+- **Partition**: subsets of records of a topic that can reside in different brokers;
+- **Broker**: service in a node with partitions that allows consumers and producers to access the records of a topic;
+- **Producer**: service that puts records into a topic;
+- **Consumer**: service that reads records from a topic;
+- **Consumer group**: set of consumers sharing a common identifier, making sure that all partitions from a topic are read by a consumer group without consumers overlap.
+
+The figure below illustrates the relation between the aforementioned Kafka concepts. In summary, messages that are sent to Kafka are organized into topics. Thus, a producer sends messages to a specific topic and a consumer reads messages from that topic. Each topic is divided into partitions, that can reside in different nodes and enable multiple consumers to read from a topic in parallel. Consumers are organized in consumer groups to make sure that partitions from a topic are consumed at least once, also making sure that each partition is only consumed by a single consumer from the group. 
+Considering the example illustrated in the figure, since Group A has two consumers, each consumer reads records from two different partitions. On the other hand, since Group B has four consumers, each consumer reads records from a single partition only.
+
+
+![Consumers](/assets/kafka-spark-flink-example/kafka-consumer-group.svg){: .image-center}
+***Figure:** Relation between Kafka producers, topics, partitions, consumers and consumer groups.*
+
+
+# [Apache Spark](https://spark.apache.org){:target="_blank"} and [Apache Flink](https://flink.apache.org){:target="_blank"}
+
+There are several open-source and commercial tools to simplify and optimize real-time data processing, such as 
+[Apache Spark](https://spark.apache.org){:target="_blank"}, 
+[Apache Flink](https://flink.apache.org){:target="_blank"}, 
+[Apache Storm](http://storm.apache.org/){:target="_blank"}, 
+[Apache Samza](http://samza.apache.org){:target="_blank"} or
+[Apama](https://www.softwareag.com/corporate/products/data_analytics/analytics/default.html){:target="_blank"}.
+Considering the current popularity of Spark and Flink-based solutions and respective stream processing characteristics, these are the tools that we will be used in this example. Nevertheless, since the source code is available on GitHub, it is straightforward to add additional consumers using one of the aforementioned tools. 
+
+**[Apache Spark](https://spark.apache.org){:target="_blank"}** is an open-source platform for distributed batch and stream processing, providing features for advanced analytics with high speed and availability. After its first release in 2014, it has been adopted by [dozens of companies](https://spark.apache.org/powered-by.html) (e.g., Yahoo!, Nokia and IBM) to process terabytes of data.
+On the other hand, **[Apache Flink](https://flink.apache.org){:target="_blank"}** is an open-source framework for distributed stream data processing, mostly focused on providing low latency and high fault tolerance data processing. It started from a fork of the Stratosphere distributed execution engine and it was first released in 2015. It has been used by [several companies](https://cwiki.apache.org/confluence/display/FLINK/Powered+by+Flink) (e.g., Ebay, Huawei and Zalando) to process data in real-time.
+
+Several blog posts already compare Spark and Flink features, functionality, latency and community. The blog posts from
+[Chandan Prakash](https://why-not-learn-something.blogspot.com/2018/03/spark-streaming-vs-flink-vs-storm-vs.html){:target="_blank"},
+[Justin Ellingwood](https://www.digitalocean.com/community/tutorials/hadoop-storm-samza-spark-and-flink-big-data-frameworks-compared){:target="_blank"} and
+[Ivan Mushketyk](https://dzone.com/articles/apache-flink-vs-apache-spark-brewing-codes){:target="_blank"}
+present an interesting analysis, highlighting when one solution might provide added value in comparison with the other.
+In terms of functionality, the main difference is related with the actual streaming processing support and implementation. In summary, there are two types of stream processing:
+- **Native streaming** (Flink): data records are processed as soon as they arrive, without waiting a specific amount of time for other records;
+- **Micro-batching** (Spark): data records are grouped into small batches and processed together with some seconds of delay.
+
+Considering this design difference, if the goal is to react as soon as data is delivered to the back-end infrastructure and every second counts, such behaviour might make a difference. Nonetheless, for most use cases a few seconds of delay is not significantly relevant for business goals.
 
 # Kafka Server
-Before putting our hands on code, we need to have a Kafka server running, in order to develop and test our code.
+Before putting our hands on code, we need to have a Kafka server running, in order to develop and test our code. The following **Docker Compose YML** file is provided to run Zookeeper, Kafka and Kafka Manager:
 
-Create bridge network communicate between containers
-
-
-Set network alias of the container to access it.
-```docker
+```yml
 version: '3.6'
 
 networks:
@@ -122,23 +140,60 @@ services:
 ```
 ***Code:** `docker-compose.yml` file for running Zookeeper, Kafka and Kafka Manager.*
 
-Go to [http://localhost:9000](http://localhost:9000) to access the Kafka Manager.
+Kafka Manager is a web-based tool to manage and monitor Kafka configurations, namely clusters, topics, partitions, among others. Such tool will be used to monitor Kafka usage and messages processing rate.
+A bridge network is also included in the compose file, which will be created to enable communication between the three services, taking advantage of the aliases announced on the network to access each service ("zookeeper" and "kafka"). That way, connection strings provided on environment variables have only the network alias and not the specific IPs, which might vary from deployment to deployment.
+
+To start the Kafka and Kafka Manager services, we use the `docker-compose` tool passing the `-d` argument to detach and run the containers in the background:
+
+```shell
+docker-compose up -d
+```
+
+Such execution will provide detailed feedback regarding the success of creating and running each container and network:
+
+```shell
+Creating network "kafka-spark-flink-example_bridge" with driver "bridge"
+Creating kafka-spark-flink-example_kafka-manager_1 ... done
+Creating kafka-spark-flink-example_zookeeper_1     ... done
+Creating kafka-spark-flink-example_kafka_1         ... done
+```
+
+After starting the containers, visit [http://localhost:9000](http://localhost:9000){:target="_blank"} to access the Kafka Manager, which should be similar to the one presented in the figure below:
 
 ![Kafka Manager](/assets/kafka-spark-flink-example/kafka-manager.png){: .image-center .img-thumbnail}
 ***Figure:** Kafka Manager interface to manage a topic and get operation feedback.*
 
+Now that Kafka is running, we are able to start developing and testing the code as soon as we develop it, sending messages and check if they are properly delivered. A single project will be created for the producer and the several consumers, varying the execution goal with environment variables. In fact, all configurations will be provided as environment variables, which simplifies the configuration process when executing Docker containers.
+
 # Configurations
+The following configurations are required:
+- "EXAMPLE_KAFKA_SERVER": Kafka server connection string to send and receive messages;
+- "EXAMPLE_KAFKA_TOPIC": name of the Kafka topic to send and receive messages;
+- "EXAMPLE_ZOOKEEPER_SERVER": Zookeeper server connection string to create Kafka topic.
+
+Such configurations will be loaded from environment variables using the Commons class, which assumes default values if no environment variables are defined.
+
 ```java
-public final static String EXAMPLE_KAFKA_TOPIC = System.getenv("EXAMPLE_KAFKA_TOPIC") != null ?
-        System.getenv("EXAMPLE_KAFKA_TOPIC") : "example";
-public final static String EXAMPLE_KAFKA_SERVER = System.getenv("EXAMPLE_KAFKA_SERVER") != null ?
-        System.getenv("EXAMPLE_KAFKA_SERVER") : "localhost:9092";
-public final static String EXAMPLE_ZOOKEEPER_SERVER = System.getenv("EXAMPLE_ZOOKEEPER_SERVER") != null ?
-        System.getenv("EXAMPLE_ZOOKEEPER_SERVER") : "localhost:32181";
+public class Commons {
+    public final static String EXAMPLE_KAFKA_TOPIC = System.getenv("EXAMPLE_KAFKA_TOPIC") != null ?
+            System.getenv("EXAMPLE_KAFKA_TOPIC") : "example";
+    public final static String EXAMPLE_KAFKA_SERVER = System.getenv("EXAMPLE_KAFKA_SERVER") != null ?
+            System.getenv("EXAMPLE_KAFKA_SERVER") : "localhost:9092";
+    public final static String EXAMPLE_ZOOKEEPER_SERVER = System.getenv("EXAMPLE_ZOOKEEPER_SERVER") != null ?
+            System.getenv("EXAMPLE_ZOOKEEPER_SERVER") : "localhost:32181";
+}
 ```
-***Code:** Maven dependency to create a Kafka topic using the Zookeeper client.*
+***Code:** Commons class to load project configurations from environment variables.*
 
 # Topic
+In this example each consumer has its specific group associated, which means that **all messages will be delivered to all consumers**. Since it is **not allowed to have multiple consumers reading messages from the same partition**, running multiple containers for the same consumer and consumer group will result in only one consumer receiving the messages. For instance, if we run 3 containers for the Kafka consumer, only one of them will receive the messages.
+
+![Consumers](/assets/kafka-spark-flink-example/consumers.svg){: .image-center}
+***Figure:** Illustration of the topic partition and relation with consumer groups and respective consumers.*
+
+
+In order to create the Kafka topic, the Zookeeper Client Java dependency is needed and should be added to the Maven POM file:
+
 ```xml
 <!-- Zookeeper -->
 <dependency>
@@ -149,7 +204,8 @@ public final static String EXAMPLE_ZOOKEEPER_SERVER = System.getenv("EXAMPLE_ZOO
 ```
 ***Code:** Maven dependency to create a Kafka topic using the Zookeeper client.*
 
-For this example, only 1 partition will be created. Such topic might be explorer later.
+
+The following code snippet implements the logic to create the Kafka topic if it does not exist yet. To achieve that, the Zookeeper client is used to establish a connection with the Zookeeper server. Afterwards, the topic is created with only one partition and one replica.
 
 
 ```java
@@ -185,6 +241,8 @@ private static void createTopic() {
 
 # Producer
 
+Now that the topic is created, we are able to create the producer to send messages to it. To accomplish that, the Kafka Clients dependency is required in the Maven POM file:
+
 ```xml
 <!-- Kafka -->
 <dependency>
@@ -195,7 +253,12 @@ private static void createTopic() {
 ```
 ***Code:** Maven dependency to create a Kafka Producer.*
 
-`StringSerializer`
+To create the Kafka Producer, four different configurations are required:
+- **Kafka Server**: host name and port of Kafka server (e.g., "localhost:9092")
+- **Producer identifier**: unique identifier of the Kafka client (e.g., "KafkaProducerExample");
+- **Key and Value Serializers**: serializers allow defining how objects are translated to and from the byte-stream format used by Kafka. In this example, since both key and values are `Strings`, the `StringSerializer` class already provided by Kafka can be used.
+
+The `createProducer` method provides a Kafka Producer instance properly configured with the previously mentioned properties:
 
 ```java
 private static Producer<String, String> createProducer() {
@@ -209,30 +272,42 @@ private static Producer<String, String> createProducer() {
 ```
 ***Code:** Create a Kafka Producer.*
 
-`EXAMPLE_PRODUCER_INTERVAL`
+To finish the Producer logic, we need to continuously send words to Kafka. The following code snippet implements that logic, sending a random word from the `words` array every `EXAMPLE_PRODUCER_INTERVAL` milliseconds (default value is 100ms). The code snippet is properly commented to make it self-explanatory.
 
 ```java
 public static void main(final String... args) {
     // Create topic
     createTopic();
 
+    // Create array of words
     String[] words = new String[]{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+
+    // Create random
     Random ran = new Random(System.currentTimeMillis());
 
+    // Create producer
     final Producer<String, String> producer = createProducer();
+
+    // Get time interval to send words
     int EXAMPLE_PRODUCER_INTERVAL = System.getenv("EXAMPLE_PRODUCER_INTERVAL") != null ?
             Integer.parseInt(System.getenv("EXAMPLE_PRODUCER_INTERVAL")) : 100;
 
     try {
         while (true) {
+            // Get random word and unique identifier
             String word = words[ran.nextInt(words.length)];
             String uuid = UUID.randomUUID().toString();
 
+            // Build record to send
             ProducerRecord<String, String> record = new ProducerRecord<>(Commons.EXAMPLE_KAFKA_TOPIC, uuid, word);
+            
+            // Send record to producer
             RecordMetadata metadata = producer.send(record).get();
 
+            // Log record sent
             logger.info("Sent ({}, {}) to topic {} @ {}.", uuid, word, Commons.EXAMPLE_KAFKA_TOPIC, metadata.timestamp());
 
+            // Wait to send next word
             Thread.sleep(EXAMPLE_PRODUCER_INTERVAL);
         }
     } catch (InterruptedException | ExecutionException e) {
@@ -246,15 +321,11 @@ public static void main(final String... args) {
 ***Code:** Send a random word to Kafka every 100ms (default value).*
 
 # Consumers
-In this example, each consumer has its specific group associated, which means that **all messages will be delivered to all groups, and consequently to each consumer**.
-When a topic has multiple partitions and we have multiple consumers in the same group, each consumer should read messages from different partitions, since it is **not allowed to have multiple consumers reading messages from the same partition**. This means that running multiple containers for the same consumer and consumer group will result in only one consumer receiving the messages. For instance, if we run 3 containers for the Kafka consumer, only one of them will receive the messages.
-
-![Consumers](/assets/kafka-spark-flink-example/consumers.svg){: .image-center}
-***Figure:** Illustration of the topic partition and relation with consumer groups and respective consumers.*
-
+Now that we are able to send words to a specific Kafka topic, it is time to develop the consumers that will process the messages and count word occurrences.
 
 # Kafka Consumer
 
+Starting with the Kafka Consumer, 
 ```java
 private static Consumer<String, String> createConsumer() {
     // Create properties
@@ -530,7 +601,7 @@ mvn clean package
 
 # Dockerfile
 
-```docker
+```dockerfile
 FROM openjdk:8u151-jdk-alpine3.7
 MAINTAINER David Campos (david.marques.campos@gmail.com)
 
@@ -574,7 +645,7 @@ kafka-spark-flink-example   latest                3bd70969dacd        4 days ago
 # Docker compose
 
 
-```docker
+```yml
 kafka-producer:
     image: kafka-spark-flink-example
     depends_on:
@@ -588,7 +659,7 @@ kafka-producer:
       - bridge
 ```
 
-```docker
+```yml
   kafka-consumer-kafka:
       image: kafka-spark-flink-example
       depends_on:
@@ -602,7 +673,7 @@ kafka-producer:
         - bridge
 ```
 
-```docker
+```yml
   kafka-consumer-spark:
         image: kafka-spark-flink-example
         depends_on:
@@ -618,7 +689,7 @@ kafka-producer:
           - bridge
 ```
 
-```docker
+```yml
   kafka-consumer-flink:
         image: kafka-spark-flink-example
         depends_on:
