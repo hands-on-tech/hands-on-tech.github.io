@@ -324,7 +324,7 @@ public static void main(final String... args) {
 # Consumers
 Now that we are able to send words to a specific Kafka topic, it is time to develop the consumers that will process the messages and count word occurrences.
 
-# Kafka Consumer
+## Kafka Consumer
 
 Similar to the producer, the following properties are required to create the Kafka consumer:
 - **Kafka Server**: host name and port of Kafka server (e.g., "localhost:9092")
@@ -382,7 +382,7 @@ public static void main(final String... args) {
 ***Code:** Polling 1000 records from the Kafka topic and count word occurrences.*
 
 
-# Spark Stream Consumer
+## Spark Stream Consumer
 
 To create the Spark Consumer, the following Java dependencies are required and should be added to the POM file. Special attention is required to Scala versions of dependencies (last version number after the underscore on `artifactId`), making sure the project and dependencies use the same scala version (in this case `2.11`), otherwise nothing will work properly with a huge amount of exceptions of missing classes.
 
@@ -465,7 +465,7 @@ public static void main(final String... args) {
 ```
 ***Code:** Spark stream consumer to count words occurrences from last 5s.*
 
-# Flink Stream Consumer
+## Flink Stream Consumer
 
 To build the Flink consumer, the following dependencies are required in the Maven POM file:
 ```xml
