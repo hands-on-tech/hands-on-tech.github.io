@@ -15,13 +15,15 @@ background: '/assets/background_posts.jpg'
       <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
       {% endif %}
     </a>
-    <p class="post-meta">Posted by
+    <p class="post-meta">
+      Posted on {{ post.date | date: '%B %d, %Y' }}
+
       {% if post.author %}
-        {{ post.author }}
-      {% else %}
-        {{ site.author }}
+        {% assign author = site.data.authors[post.author] %}
+        {% if author %}
+          by {% include author.html %}
+        {% endif %}
       {% endif %}
-      on {{ post.date | date: '%B %d, %Y' }}
       <span style="display: block"><i class="fa fa-clock-o"></i> {% include read_time.html %}</span>
     </p>
   </article>
