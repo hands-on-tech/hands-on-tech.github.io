@@ -18,13 +18,13 @@ Sample project taking advantage of Kafka messages streaming communication platfo
 **Source code is available on [Github](https://github.com/hands-on-tech/kafka-spark-flink-example){:target="_blank"}** with detailed documentation on how to build and run the different software components using Docker.
 
 # Goal
-The main goal of this sample project is to mimic the streaming communication of nowadays IoT solutions. Thus, an infrastructure is required to enable communication between components generating data sent to a centralized infrastructure. Such data is later consumed by other components with different purposes.
-The "Hello World" example project of such solutions is the Word Count problem, were producers send words to a central back-end and consumers count occurrences of each word. In summary, the following actors are involved:
+The main goal of this sample project is to mimic the streaming communication of nowadays large-scale solutions. An infrastructure is required to enable communication between components generating data sent to a centralized infrastructure. Such data is later consumed by other components with different purposes.
+The "Hello World" example project of such solutions is the Word Count problem, were producers send words to a central back-end and consumers count occurrences of each word. The following actors are involved:
 1. **Producer sends words** in textual format to **message broker**;
-2. **Message broker** receives messages and **sends them to registered consumers**;
+2. **Message broker** receives messages and **serves them to registered consumers**;
 3. **Consumers** process messages and **count occurrences of each word**.
 
-The architecture illustrated in the next Figure is proposed to achieve the previously mentioned goal, which contains the following components:
+The following architecture is proposed, which contains the following components:
 - **Producer**: send words to message broker;
 - **Zookeeper**: service for centralized configuration and synchronization of distributed services. In this case it is required to install and configure Kafka;
 - **Kafka**: message broker to receive messages from producer and propagate them to consumers
@@ -35,7 +35,7 @@ The architecture illustrated in the next Figure is proposed to achieve the previ
 ![Architecture](/assets/kafka-spark-flink-example/architecture.svg){: .image-center}
 ***Figure:** Illustration of the implementation architecture of the example project.*
 
-Such infrastructure will run on top of **[Docker](https://www.docker.com){:target="_blank"}**, which simplifies the orchestration and setup processes. If we would like to scale-up the example, we can also deploy such example on a large-scale Docker-based orchestration platform, such as [Docker Swarm](https://docs.docker.com/engine/swarm){:target="_blank"} and [Kubernetes](https://kubernetes.io){:target="_blank"}.
+Such infrastructure will run on top of **[Docker](https://www.docker.com){:target="_blank"}**, which simplifies the orchestration and setup processes. If we would like to scale-up the example, we can deploy it in a large-scale Docker-based orchestration platform, such as [Docker Swarm](https://docs.docker.com/engine/swarm){:target="_blank"} and [Kubernetes](https://kubernetes.io){:target="_blank"}.
 Additionally, the following technologies are also used:
 - **Java 8** as main programming language for producer and consumers. Actually tried to use Java 10 first, but had several problems with Spark and Flink Scala versions;
 - **Maven** for producer and consumers dependency management and build purposes;
@@ -48,13 +48,13 @@ Additionally, the following technologies are also used:
 ***Figure:** Illustration of Kafka capabilities as a message broker between heterogeneous producers and consumers. Source [https://kafka.apache.org](https://kafka.apache.org).*
 
 [Hundreds of companies](https://cwiki.apache.org/confluence/display/KAFKA/Powered+By){:target="_blank"} already take advantage of Kafka to provide their services, such as Oracle, LinkedIn, Mozilla and Netflix. As a result, it is being used in many different real-life use cases for [different purposes](https://kafka.apache.org/uses){:target="_blank"}, such as messaging, website activity tracking, metrics collection, logs aggregation, stream processing and event sourcing.
-For instance, in the IoT context, thousands of devices can send streams of operational data to Kafka, which might processed and stored for many different purposes, such as improved maintenance, enhanced support and functionality optimization. Taking advantage of streaming enables reacting on real-time to relevant changes on connected devices.
+For instance, in the IoT context, thousands of devices can send streams of operational data to Kafka, which might be processed and stored for many different purposes, such as improved maintenance, enhanced support and functionality optimization. Taking advantage of streaming enables reacting on real-time to relevant changes on connected devices.
 
 ## Kafka anatomy in 1 minute
 To better understand how Kafka works, it is important to understand its main concepts:
 - **Record**: consists of a key, a value and a timestamp;
 - **Topic**: category of records;
-- **Partition**: subsets of records of a topic that can reside in different brokers;
+- **Partition**: subset of records of a topic that can reside in different brokers;
 - **Broker**: service in a node with partitions that allows consumers and producers to access the records of a topic;
 - **Producer**: service that puts records into a topic;
 - **Consumer**: service that reads records from a topic;
@@ -76,7 +76,7 @@ There are several open-source and commercial tools to simplify and optimize real
 [Apache Storm](http://storm.apache.org/){:target="_blank"}, 
 [Apache Samza](http://samza.apache.org){:target="_blank"} or
 [Apama](https://www.softwareag.com/corporate/products/data_analytics/analytics/default.html){:target="_blank"}.
-Considering the current popularity of Spark and Flink-based solutions and respective stream processing characteristics, these are the tools that we will be used in this example. Nevertheless, since the source code is available on GitHub, it is straightforward to add additional consumers using one of the aforementioned tools. 
+Considering the current popularity of Spark and Flink-based solutions and respective stream processing characteristics, these are the tools that will be used in this example. Nevertheless, since the source code is available on GitHub, it is straightforward to add additional consumers using one of the aforementioned tools. 
 
 **[Apache Spark](https://spark.apache.org){:target="_blank"}** is an open-source platform for distributed batch and stream processing, providing features for advanced analytics with high speed and availability. After its first release in 2014, it has been adopted by [dozens of companies](https://spark.apache.org/powered-by.html) (e.g., Yahoo!, Nokia and IBM) to process terabytes of data.
 On the other hand, **[Apache Flink](https://flink.apache.org){:target="_blank"}** is an open-source framework for distributed stream data processing, mostly focused on providing low latency and high fault tolerance data processing. It started from a fork of the Stratosphere distributed execution engine and it was first released in 2015. It has been used by [several companies](https://cwiki.apache.org/confluence/display/FLINK/Powered+by+Flink) (e.g., Ebay, Huawei and Zalando) to process data in real-time.
@@ -205,7 +205,7 @@ In order to create the Kafka topic, the Zookeeper Client Java dependency is need
 ***Code:** Maven dependency to create a Kafka topic using the Zookeeper client.*
 
 
-The following code snippet implements the logic to create the Kafka topic if it does not exist yet. To achieve that, the Zookeeper client is used to establish a connection with the Zookeeper server. Afterwards, the topic is created with only one partition and one replica.
+The following code snippet implements the logic to create the Kafka topic if it does not exist. To achieve that, the Zookeeper client is used to establish a connection with the Zookeeper server, and afterwards the topic is created with only one partition and one replica.
 
 
 ```java
@@ -213,19 +213,20 @@ private static void createTopic() {
     int sessionTimeoutMs = 10 * 1000;
     int connectionTimeoutMs = 8 * 1000;
 
+    // Create Zookeeper Client
     ZkClient zkClient = new ZkClient(
             Commons.EXAMPLE_ZOOKEEPER_SERVER,
             sessionTimeoutMs,
             connectionTimeoutMs,
             ZKStringSerializer$.MODULE$);
 
+    // Create Zookeeper Utils to perform management tasks
     boolean isSecureKafkaCluster = false;
     ZkUtils zkUtils = new ZkUtils(zkClient, new ZkConnection(Commons.EXAMPLE_ZOOKEEPER_SERVER), isSecureKafkaCluster);
 
+    // Create topic if it does not exist
     int partitions = 1;
     int replication = 1;
-
-    // Add topic configuration here
     Properties topicConfig = new Properties();
     if (!AdminUtils.topicExists(zkUtils, Commons.EXAMPLE_KAFKA_TOPIC)) {
         AdminUtils.createTopic(zkUtils, Commons.EXAMPLE_KAFKA_TOPIC, partitions, replication, topicConfig, RackAwareMode.Safe$.MODULE$);
@@ -325,7 +326,13 @@ Now that we are able to send words to a specific Kafka topic, it is time to deve
 
 # Kafka Consumer
 
-Starting with the Kafka Consumer, 
+Similar to the producer, the following properties are required to create the Kafka consumer:
+- **Kafka Server**: host name and port of Kafka server (e.g., "localhost:9092")
+- **Consumer Group Identifier**: unique identifier of the consumer group (e.g., "KafkaConsumerGroup");
+- **Key and Value Serializers**: since both key and values are `Strings`, the `StringSerializer` class is be used.
+
+After creating the consumer, we need to subscribe to the `EXAMPLE_KAFKA_TOPIC` topic, in order to receive the messages that are sent to it by the producer:
+
 ```java
 private static Consumer<String, String> createConsumer() {
     // Create properties
@@ -345,23 +352,39 @@ private static Consumer<String, String> createConsumer() {
 ```
 ***Code:** Create Kafka consumer subscribing to topic.*
 
+To continuously collect the records sent to the topic, we can take advantage of the `poll` method provided in the consumer, polling a specific number of records from the topic. After that, we can process each record and count the number of word occurrences using a `ConcurrentHashMap`.
+
 ```java
 public static void main(final String... args) {
-    final Consumer<String, String> consumer = createConsumer();
+        // Counters map
+        ConcurrentMap<String, Integer> counters = new ConcurrentHashMap<>();
 
-    while (true) {
-        final ConsumerRecords<String, String> consumerRecords = consumer.poll(1000);
-        consumerRecords.forEach(record -> {
-            logger.info("Consumer Record:({}, {}, {}, {})", record.key(), record.value(), record.partition(), record.offset());
-        });
-        consumer.commitAsync();
+        // Create consumer
+        final Consumer<String, String> consumer = createConsumer();
+        while (true) {
+            // Get records
+            final ConsumerRecords<String, String> consumerRecords = consumer.poll(1000);
+            consumerRecords.forEach(record -> {
+                // Get word
+                String word = record.value();
+
+                // Update word occurrences
+                int count = counters.containsKey(word) ? counters.get(word) : 0;
+                counters.put(word, ++count);
+
+                // Log word number of occurrences
+                logger.info("({}, {})", word, count);
+            });
+            consumer.commitAsync();
+        }
     }
-}
 ```
-***Code:** Polling 1000 records from the Kafka topic.*
+***Code:** Polling 1000 records from the Kafka topic and count word occurrences.*
 
 
 # Spark Stream Consumer
+
+To create the Spark Consumer, the following Java dependencies are required and should be added to the POM file. Special attention is required to Scala versions of dependencies (last version number after the underscore on `artifactId`), making sure the project and dependencies use the same scala version (in this case `2.11`), otherwise nothing will work properly with a huge amount of exceptions of missing classes.
 
 ```xml
 <!--Spark-->
@@ -382,6 +405,18 @@ public static void main(final String... args) {
 </dependency>
 ```
 ***Code:** Maven dependencies to create a Spark Consumer.*
+
+Since spark performs micro-batching for stream processing, a temporal batch of **5 seconds** is defined, which means that the words received in the last 5 seconds are processed together in a single batch. To process the input streams of words, the **MapReduce** programming model is used, which has two different processing stages:
+- **Map**: filter and sort input data converting it to tuples (key/value pairs);
+- **Reduce**: processes the tuples from the map method and combines them into a smaller set of tuples considering a specific goal.
+
+In this specific WordCount example, the following logic is followed:
+1. Get input stream of words for the last 5 seconds;
+2. Map words into tuples <word, occurrence> (e.g., "eight, 1");
+3. Reduce tuples by word summing the occurrences (e.g., "eight, 10");
+4. Print reduced set of tuples with words and total number of occurrences.
+
+The following code snippet implements the previously mentioned algorithm, taking advantage of the Spark `JavaDStream` and `JavaPairDStream` classes for Streams and MapReduce operations.
 
 ```java
 public static void main(final String... args) {
@@ -432,6 +467,7 @@ public static void main(final String... args) {
 
 # Flink Stream Consumer
 
+To build the Flink consumer, the following dependencies are required in the Maven POM file:
 ```xml
 <!--Flink-->
 <dependency>
@@ -457,7 +493,34 @@ public static void main(final String... args) {
 ```
 ***Code:** Maven dependencies to create a Flink Consumer.*
 
+The Flink consumer also takes advantage of the MapReduce programming model, following the same strategy previously presented for the Spark consumer. In this case, the Flink `DataStream` class is used, which provides cleaner and easier to understand source code, as we can see below.
+
 ```java
+public static void main(final String... args) {
+    // Create execution environment
+    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+    // Properties
+    final Properties props = new Properties();
+    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, Commons.EXAMPLE_KAFKA_SERVER);
+    props.put(ConsumerConfig.GROUP_ID_CONFIG, "FlinkConsumerGroup");
+
+    DataStream<String> messageStream = env.addSource(new FlinkKafkaConsumer010<>(Commons.EXAMPLE_KAFKA_TOPIC, new SimpleStringSchema(), props));
+    
+    // Split up the lines in pairs (2-tuples) containing: (word,1)
+    messageStream.flatMap(new Tokenizer())
+            // group by the tuple field "0" and sum up tuple field "1"
+            .keyBy(0)
+            .sum(1)
+            .print();
+
+    try {
+        env.execute();
+    } catch (Exception e) {
+        logger.error("An error occurred.", e);
+    }
+}
+
 public static final class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {
     @Override
     public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {
@@ -473,39 +536,10 @@ public static final class Tokenizer implements FlatMapFunction<String, Tuple2<St
     }
 }
 ```
-***Code:** Tokenizer to split messages into word tokens and return a pair `<word, 1>`.*
-
-```java
-public static void main(final String... args) {
-    // Create execution environment
-    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-
-    // Properties
-    final Properties props = new Properties();
-    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, Commons.EXAMPLE_KAFKA_SERVER);
-    props.put(ConsumerConfig.GROUP_ID_CONFIG, "FlinkConsumerGroup");
-
-    DataStream<String> messageStream = env.addSource(new FlinkKafkaConsumer010<>(Commons.EXAMPLE_KAFKA_TOPIC, new SimpleStringSchema(), props));
-
-
-    // Split up the lines in pairs (2-tuples) containing: (word,1)
-    messageStream.flatMap(new Tokenizer())
-            // group by the tuple field "0" and sum up tuple field "1"
-            .keyBy(0)
-            .sum(1)
-            .print();
-
-    try {
-        env.execute();
-    } catch (Exception e) {
-        logger.error("An error occurred.", e);
-    }
-}
-```
 ***Code:** Setup Flink to continuously consume messages and count and print occurrences per word.*
 
 # Main
-Environment variable `EXAMPLE_GOAL` is used to get the goal of the program, i.e., to run a producer of a consumer with kafka, spark or flink.
+To get everything together, the `Main` application is created to run a specific application depending on the execution goal. The environment variable `EXAMPLE_GOAL` is used to get the goal of the program, i.e., to run a producer or a consumer with Kafka, Spark or Flink. By doing this we can have a single Docker Image to run the 4 different goals, which might vary with the provided environment variable.
 
 ```java
 public static void main(final String... args) {
@@ -539,6 +573,8 @@ public static void main(final String... args) {
 ***Code:** Main program to select which program to run.*
 
 # Build package
+
+Finally, in order to build fat JAR file with all dependencies included, the [Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin){:target="_blank"} was used. Tried doing this using the [Maven Assembly Plugin](https://maven.apache.org/plugins/maven-assembly-plugin){:target="_blank"} but had problems to gather all Flink dependencies in the fat JAR.
 
 ```xml
 <build>
@@ -591,15 +627,10 @@ public static void main(final String... args) {
 </build>
 ```
 
-Flink does not like maven assembly plugin: TODO
-Show error.
+To build the fat JAR, please run `mvn clean package` in the project folder, which stores the resulting JAR `kafka-spark-flink-example-1.0-SNAPSHOT-jar-with-dependencies.jar` in the target folder.
 
-Build java package:
-```shell
-mvn clean package
-```
-
-# Dockerfile
+# Docker Image
+To build the Docker Image for the producer and consumers, the following Dockerfile was built using the [OpenJDK](https://hub.docker.com/_/openjdk/){:target="_blank"} image as baseline:
 
 ```dockerfile
 FROM openjdk:8u151-jdk-alpine3.7
@@ -618,35 +649,29 @@ CMD ./wait-for-it.sh -s -t 30 $EXAMPLE_ZOOKEEPER_SERVER -- ./wait-for-it.sh -s -
 ```
 ***Code:** Dockerfile for building Docker image.*
 
-`wait-for-it.sh` is to used to check if a specific host and port is available and only run the provided command when connectivity is established.
+`wait-for-it.sh` is used to check if a specific host and port is available and only run the provided command when connectivity is established.
 `wait-for-it.sh` was developed by [Giles Hall](https://github.com/vishnubob) and is available at
 [https://github.com/vishnubob/wait-for-it](https://github.com/vishnubob/wait-for-it).
+In this example, producer and consumers should only be started when kafka is successfully running with connectivity available.
 
-In this case, producer and consumers should only be started when kafka is successfully running with connectivity available.
 
-# Build Docker image
-
-Build docker image to run producer and consumers:
+To **build the docker image**, run the following command in the project folder:
 ```shell
 docker build -t kafka-spark-flink-example .
 ```
 
-Check on docker images if it is available:
-```shell
-docker images
-```
+After the build process, check on docker images if it is available, by running the command `docker images`. If the image is available, the output should me similar to the following:
 
-Output:
 ```shell
 REPOSITORY                  TAG                   IMAGE ID            CREATED             SIZE
 kafka-spark-flink-example   latest                3bd70969dacd        4 days ago          253MB
 ```
 
 # Docker compose
-
+To create the containers running the Producer and the three Consumers, the previous Docker Compose YML file should be extended, adding the configurations for the Kafka Producer, Kafka Consumer, Spark Consumer and Flink Consumer. The environment variables to specify the Kafka Topic, Kafka Server, Zookeeper Server, Execution goal and Messages cadence are also provided.
 
 ```yml
-kafka-producer:
+ kafka-producer:
     image: kafka-spark-flink-example
     depends_on:
       - kafka
@@ -655,11 +680,10 @@ kafka-producer:
       EXAMPLE_KAFKA_TOPIC: "example"
       EXAMPLE_KAFKA_SERVER: "kafka:9092"
       EXAMPLE_ZOOKEEPER_SERVER: "zookeeper:32181"
+      EXAMPLE_PRODUCER_INTERVAL: 100
     networks:
       - bridge
-```
 
-```yml
   kafka-consumer-kafka:
       image: kafka-spark-flink-example
       depends_on:
@@ -671,9 +695,7 @@ kafka-producer:
         EXAMPLE_ZOOKEEPER_SERVER: "zookeeper:32181"
       networks:
         - bridge
-```
 
-```yml
   kafka-consumer-spark:
         image: kafka-spark-flink-example
         depends_on:
@@ -687,9 +709,7 @@ kafka-producer:
           EXAMPLE_ZOOKEEPER_SERVER: "zookeeper:32181"
         networks:
           - bridge
-```
 
-```yml
   kafka-consumer-flink:
         image: kafka-spark-flink-example
         depends_on:
@@ -774,22 +794,26 @@ Output should be similar to the following example, were each line represents a w
 ```
 
 ## Kafka consumer
-To review Kafka consumer logs:
+Run the following command to review Kafka consumer logs:
 
 ```shell
 docker logs kafka-spark-flink-example_kafka-consumer-kafka_1 -f
 ```
 
-In this first consumer, for each record consumed, we only print the respective word, in order to validate that messages are being properly sent and received:
+For every word received the respective total number of occurrences is displayed, as we can see below:
 
 ```shell
-21:36:04.742 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - Consumer Record:(c73ec71c-866a-411a-93ab-e7ff2b5bcc46, ten, 0, 0)
-21:36:04.800 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - Consumer Record:(62ea7d3f-70f2-4d4e-9c04-ca9d8c2165f5, one, 0, 1)
-21:36:04.911 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - Consumer Record:(0de6850c-4817-4994-be7f-fcc5b3480d5c, five, 0, 2)
-21:36:05.023 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - Consumer Record:(6d13af57-e186-465d-ac87-fb93d2c5bc16, ten, 0, 3)
-21:36:05.135 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - Consumer Record:(ee7cef69-4e60-4a20-b2e1-85e17720bb68, six, 0, 4)
-21:36:05.270 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - Consumer Record:(f26b4280-a2a2-4def-9c90-5ea59520f9d1, three, 0, 5)
-21:36:05.391 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - Consumer Record:(fb3ad922-eb3d-42ed-907e-2831d083ff9e, nine, 0, 6)
+14:14:43.463 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (five, 27)
+14:14:43.581 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (three, 15)
+14:14:43.709 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (seven, 35)
+14:14:43.822 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (seven, 36)
+14:14:43.931 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (four, 19)
+14:14:44.043 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (four, 20)
+14:14:44.157 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (five, 28)
+14:14:44.273 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (seven, 37)
+14:14:44.386 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (five, 29)
+14:14:44.493 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (nine, 21)
+14:14:44.604 [main] INFO  org.davidcampos.kafka.consumer.KafkaConsumerExample - (one, 12)
 ```
 
 ## Spark consumer
@@ -802,16 +826,32 @@ docker logs kafka-spark-flink-example_kafka-consumer-spark_1 -f
 Every 5s, Spark will output the number of occurrences for each word for that specific period of time, similar to:
 
 ```shell
-(two,3)
-(one,3)
-(nine,5)
-(six,8)
-(three,2)
+-------------------------------------------
+Time: 1541082310000 ms
+-------------------------------------------
+(two,4)
+(one,7)
+(nine,3)
+(six,6)
+(three,9)
 (five,2)
-(four,9)
+(four,3)
+(seven,4)
+(eight,5)
+(ten,2)
+
+-------------------------------------------
+Time: 1541082315000 ms
+-------------------------------------------
+(two,4)
+(one,8)
+(nine,3)
+(six,9)
+(three,7)
+(five,1)
+(four,4)
 (seven,3)
-(eight,6)
-(ten,6)
+(ten,7)
 ```
 
 Additionally, you can also check the **Spark UI interface** available at [http://localhost:4040](http://localhost:4040){:target="_blank"}. Such web-based tool provides relevant information for monitoring and instrumentation, with detailed information about the jobs executed, elapsed time, memory usage, among others.
@@ -821,7 +861,7 @@ Additionally, you can also check the **Spark UI interface** available at [http:/
 ***Figure:** Spark interface to check active jobs and respective status.*
 
 ## Flink consumer
-Finally, one can check Flink logs by executing:
+Finally, we can check Flink logs by executing:
 
 ```shell
 docker logs kafka-spark-flink-example_kafka-consumer-flink_1 -f
@@ -842,14 +882,14 @@ Since Flink is a timeseries-based approach it reacts to every message received. 
 ```
 
 # We did it!
-The producer is sending the messages to Kafka and all consumers are receiving and processing the messages, showing the number of occurrences for each word.
+It is done and working properly! The producer is sending the messages to Kafka and all consumers are receiving and processing the messages, showing the number of occurrences for each word.
 
 ![GIF](/assets/kafka-spark-flink-example/yes.gif){: .image-center}
 
 # Scale it up
 Just one more thing. What about increasing the number of messages being sent? As a first approach, we can change the time interval between requests. By default, this value is set to 100ms, which means that a message is sent every 100ms. To change this behaviour, set the `EXAMPLE_PRODUCER_INTERVAL` environment variable to specify the producer time interval between requests to Kafka. Thus, changing the `docker-compose.yml` accordingly (line 10), we can send a word to Kafka every 10ms.
 
-```docker
+```yml
 kafka-producer:
     image: kafka-spark-flink-example
     depends_on:
