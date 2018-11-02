@@ -1,0 +1,3 @@
+New blog post about Kafka data streaming with Spark and Flink.
+Comments and suggestions are welcome!
+https://hands-on-tech.github.io/2018/11/01/kafka-spark-flink-example.html
