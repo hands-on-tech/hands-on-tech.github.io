@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+
+node "Docker" {
+    node "Java Program" {
+        [Datastax Native]
+        [Datastax ORM]
+        [Kundera]
+        [Achilles]
+    }
+
+    database Cassandra
+    [Cassandra] <-down-> [Datastax Native]
+    [Cassandra] <-down-> [Datastax ORM]
+    [Cassandra] <-down-> [Kundera]
+    [Cassandra] <-down-> [Achilles]
+}
+@enduml

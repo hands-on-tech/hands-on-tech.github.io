@@ -77,6 +77,10 @@ p a {
     display: block !important;
 }
 
+.image-rounded-corners {
+    border-radius: 10px;
+}
+
 /*Captions*/
 img + em,
 div + p > em { 

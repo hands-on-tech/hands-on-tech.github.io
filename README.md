@@ -15,3 +15,4 @@ List of ideas for blog posts:
 - NLTK: NLP, NER
 - Blockchain first steps
 - Home automation with Home Assistant + Gateway + Light + Button + Power socket
+- Apache Impala
