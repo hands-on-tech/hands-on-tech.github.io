@@ -1,0 +1,34 @@
+@startuml
+left to right direction
+
+class Main {
+    {static} +main()
+}
+
+class RunDatastax {
+    +run()
+}
+class RunDatastaxNative {
+    +run()
+}
+class RunKundera {
+    +run()
+}
+class RunAchilles {
+    +run()
+}
+
+class UserDatastax
+class UserKundera
+class UserAchilles
+
+RunDatastax --> UserDatastax: uses
+RunKundera --> UserKundera: uses
+RunAchilles --> UserAchilles: uses
+
+Main --> RunDatastax: uses
+Main --> RunDatastaxNative: uses
+Main --> RunKundera: uses
+Main --> RunAchilles: uses
+
+@enduml

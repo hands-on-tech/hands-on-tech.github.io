@@ -77,6 +77,14 @@ p a {
     display: block !important;
 }
 
+.image-width-justify-100 {
+    width: 100%;
+}
+
+.image-width-justify-90 {
+    width: 90%;
+}
+
 .image-rounded-corners {
     border-radius: 10px;
 }

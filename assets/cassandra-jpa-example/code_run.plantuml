@@ -1,0 +1,72 @@
+@startuml
+
+abstract Run {
+    +run()
+    
+    {abstract} +open()
+    {abstract} +close()
+    {abstract} +clean()
+
+    +runWrites()
+    {abstract} +write()
+
+    +runReads()
+    {abstract} +read()
+
+    +runUpdates()
+    {abstract} +update()
+
+    +runDeletes()
+    {abstract} +delete()
+}
+
+class RunDatastax {
+    +open()
+    +close()
+    +clean()
+
+    +write()
+    +read()
+    +update()
+    +delete()
+}
+
+class RunDatastaxNative {
+    +open()
+    +close()
+    +clean()
+
+    +write()
+    +read()
+    +update()
+    +delete()
+}
+
+class RunKundera {
+    +open()
+    +close()
+    +clean()
+
+    +write()
+    +read()
+    +update()
+    +delete()
+}
+
+class RunAchilles {
+    +open()
+    +close()
+    +clean()
+
+    +write()
+    +read()
+    +update()
+    +delete()
+}
+
+Run <|-- RunDatastax: extends
+Run <|-- RunDatastaxNative: extends
+Run <|-- RunKundera: extends
+Run <|-- RunAchilles: extends
+
+@enduml

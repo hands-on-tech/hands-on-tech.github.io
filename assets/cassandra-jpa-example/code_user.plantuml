@@ -1,0 +1,86 @@
+@startuml
+
+interface User {
+    {abstract} getId()
+    {abstract} setId()
+
+    {abstract} getFirstName()
+    {abstract} setFirstName()
+
+    {abstract} getLastName()
+    {abstract} setLastName()
+
+    {abstract} getCity()
+    {abstract} setCity()
+
+    {abstract} toString()
+}
+
+class UserDatastax {
+    - id
+    - firstName
+    - lastName
+    - city
+
+    +getId()
+    +setId()
+
+    +getFirstName()
+    +setFirstName()
+
+    +getLastName()
+    +setLastName()
+
+    +getCity()
+    +setCity()
+
+    +toString()
+}
+
+class UserKundera {
+    - id
+    - firstName
+    - lastName
+    - city
+
+    +getId()
+    +setId()
+
+    +getFirstName()
+    +setFirstName()
+
+    +getLastName()
+    +setLastName()
+
+    +getCity()
+    +setCity()
+
+    +toString()
+}
+
+class UserAchilles {
+    - id
+    - firstName
+    - lastName
+    - city
+
+    +getId()
+    +setId()
+
+    +getFirstName()
+    +setFirstName()
+
+    +getLastName()
+    +setLastName()
+
+    +getCity()
+    +setCity()
+
+    +toString()
+}
+
+User <|-- UserDatastax: implements
+User <|-- UserKundera: implements
+User <|-- UserAchilles: implements
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+
+class User {
+    - id
+    - firstName
+    - lastName
+    - city
+
+    +getId()
+    +setId()
+
+    +getFirstName()
+    +setFirstName()
+
+    +getLastName()
+    +setLastName()
+
+    +getCity()
+    +setCity()
+
+    +toString()
+}
+
+@enduml
