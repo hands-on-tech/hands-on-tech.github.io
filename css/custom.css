@@ -85,6 +85,10 @@ p a {
     width: 90%;
 }
 
+.image-width-justify-70 {
+    width: 70%;
+}
+
 .image-rounded-corners {
     border-radius: 10px;
 }

@@ -72,7 +72,7 @@ The [official Cassandra documentation page](http://cassandra.apache.org/doc/late
 - **[Kundera](https://github.com/Impetus/Kundera){:target="_blank"}**: active project with large community;
 - **[PlayORM](https://github.com/deanhiller/playorm){:target="_blank"}**: specific for Play Framework and project does not look active.
 
-Based on such analysis, **Achilles**, **Datastax** and **Kundera** are the JPA libraries that will be considered during this analysis.
+Based on such analysis, **Achilles**, **Datastax** and **Kundera** are the JPA libraries that will be considered during this analysis. To have a point of comparison, both **Datastax Native** and **Datastax ORM** implementations will be used.
 
 # How to compare JPA libraries?
 
@@ -92,15 +92,15 @@ Taking the previous topics into consideration, the following testing guidelines 
 - **Resources usage measurement**: CPU and RAM usage of client and server applications;
 - **Repetition factor**: all tests should be repeated several times to collect average values instead of results from single executions.
 
-A simplistic approach will be followed for the data definition. The following Figure illustrates the "User" class that will be used during the tests, which contains only four textual attributes (unique identifier, first name, last name and city). In summary, everytime an operation is performed, an instance of the User class is being written, read, updated or deleted on Cassandra.
+A simplistic approach will be followed for the data definition. The following Figure illustrates the `User` class that will be used during the tests, which contains only four textual attributes (unique identifier, first name, last name and city). In summary, everytime an operation is performed, an instance of the User class is being written, read, updated or deleted on Cassandra.
 
 ![User](/assets/cassandra-jpa-example/user.svg){: .image-center}
-***Figure:** Illustration of the simple "User" class and respective attributes.*
+***Figure:** Illustration of the simple `User` class and respective attributes.*
 
 The following pseudocode presents the algorithm applied to collect the processing times for each library and operation types, using a set of users with different attributes. For each library and test cycle, each operation type (write, read, update and delete) will be executed $$O$$ times (TOTAL_OPERATIONS), which is repeated $$R$$ times (TOTAL_REPETITIONS) to calculate the average of total processing times. If multiple cycles are defined, the previous process is repeated $$C$$ times (TOTAL_CYCLES) to collect average values of all repetitions. In the end, average times of all cycles and repetitions are collected per library and operation type. That way, all tasks are repeated to make sure external interferences have no impact on compared processing times.
 
 ```ruby
-FOR EACH library in [datastax_native, datastax, kundera, achilles]
+FOR EACH library in [datastax_native, datastax_orm, kundera, achilles]
 	FOR EACH cycle in TOTAL_CYCLES (C)
 		SET users of size TOTAL_REPETITIONS*TOTAL_OPERATIONS
 		FOR EACH operation type in [write, read, update, delete]
@@ -121,23 +121,23 @@ END FOR
 ```
 ***Pseudocode:** Algorithm defined to perform JPA libraries tests.*
 
-While executing the operations in the Java application, CPU and RAM resources usage should be collected of both client and server applications. By doing this we are able to evaluate if there is any significant impact of each JPA library on the Java application and Cassandra server resources usage.
+While executing the operations in the Java application, CPU and RAM resources usage will be collected on both client and server applications. By doing this we are able to evaluate if there is any significant impact of each JPA library on the Java application and Cassandra server resources usage.
 
 # Implementation
-
-To implement 
-
-The Java application implementation was performed minimizing code replication as much as possible.
+The Java application implementation was performed to minimize code replication as much as possible. However, different `User` classes are required to provide the Java annotations required by each one. Thus, the following Figure illustrates how the `User` interface is used to make sure different `User` classes implement the required methods.
 
 ![Architecture](/assets/cassandra-jpa-example/code_user.svg){: .image-center}
-***Figure:** Illustration of the "User" implementation.*
+***Figure:** Illustration of the `User` implementation.*
+
+To minimize complexity and to make sure that the different tests have the same core behavior, the `Run` abstract class implements methods to run write, read, update and delete tests using the configured number of operations, repetitions and cycles. That way, specific run classes only have to implement core methods to perform atomic operations using each JPA library. The following Figure illustrates such implementation details.
 
 ![Architecture](/assets/cassandra-jpa-example/code_run.svg){: .image-center}
-***Figure:** Illustration of the "Run" implementation.*
+***Figure:** Illustration of the `Run` implementation.*
 
+Finally, the main application just needs to take advantage of the `run()` methods to execute all the designed tests, as presented in the following Figure.
 
 ![Architecture](/assets/cassandra-jpa-example/code_main.svg){: .image-center}
-***Figure:** Illustration of the "Main" implementation.*
+***Figure:** Illustration of the `Main` implementation.*
 
 ## Cassandra Server
 
@@ -170,10 +170,8 @@ Finally, the Cassandra server can be started using the `docker compose` tool as 
 docker-compose up -d
 ```
 
-## Datastax Native implementation
-- Maven Dependency
-- Initialization
-- Write, Read, Update and Delete operations example
+## Datastax Native
+To use Datastax Native, the core Java dependency is required and should be defined in the project POM file.
 
 ```xml
 <dependency>
@@ -183,6 +181,8 @@ docker-compose up -d
 </dependency>
 ```
 ***Code:** Maven dependency for Datastax Native implementation.*
+
+The code snippet below exemplifies how Datastax Native `QueryBuilder` can be used to connect, write, read, update and delete `User` data to/from Cassandra.
 
 ```java
 // Connect
@@ -227,11 +227,8 @@ session.execute(delete);
 ***Code:** Example code to perform connect, write, read, update and delete operations using Datastax Native.*
 
 
-## Datastax ORM implementation
-- Maven Dependency
-- User
-- Initialization
-- Write, Read, Update and Delete operations example
+## Datastax ORM
+In addition to the core Datastax dependency, the mapping dependency is also required to support the ORM implementation:
 
 ```xml
 <dependency>
@@ -241,6 +238,8 @@ session.execute(delete);
 </dependency>
 ```
 ***Code:** Maven dependency for Datastax ORM implementation.*
+
+The `UserDatastax` class is defined using the Java annotations provided by Datastax, which allow to define table and column characteristics, such as name and primary key.
 
 ```java
 @Table(keyspace = "example", name = "user",
@@ -265,6 +264,8 @@ public class UserDatastax implements User {
 }
 ```
 ***Code:** Datastax User implementation.*
+
+The code snippet below shows how simple is to perform connect, write, read, update and delete operations using Datastax ORM.
 
 ```java
 // Connect
@@ -293,11 +294,8 @@ mapper.delete(user);
 ```
 ***Code:** Example code to perform connect, write, read, update and delete operations using Datastax ORM.*
 
-## Kundera implementation
-- Maven Dependency
-- User
-- Initialization
-- Write, Read, Update and Delete operations example
+## Kundera
+The following Java dependencies are added to use Kundera:
 
 ```xml
 <dependency>
@@ -311,7 +309,9 @@ mapper.delete(user);
 	<version>3.13</version>
 </dependency>
 ```
-***Code:** Maven dependency for Kundera implementation.*
+***Code:** Maven dependencies for Kundera implementation.*
+
+Persistence configuration of Kundera is performed using the `persistence.xml` file, in order to specify how connectivity is performed to Cassandra and identify the classes that should be mapped. In order to automatically create the database, change the `kundera.ddl.auto.prepare` property from `update` to `create`.
 
 ```xml
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -336,6 +336,7 @@ mapper.delete(user);
 ```
 ***Code:** Kundera persistence configuration.*
 
+Adding Cassandra connectivity configurations to `persistence.xml` reduces the required properties in the `UserKundera` class. Special attention to the `schema` property that makes the link with the `persistence-unit` previously defined in the XML file.
 
 ```java
 @Entity
@@ -358,6 +359,7 @@ public class UserKundera implements User {
 ```
 ***Code:** Kundera User implementation.*
 
+The following code snippet presents how Kundera can be used to perform connect, write, read, update and delete operations on Cassandra.
 
 ```java
 // Connect
@@ -387,7 +389,7 @@ em.remove(user);
 ```
 ***Code:** Example code to perform connect, write, read, update and delete operations using Kundera.*
 
-- To turn Kundera logging of, logback.xml on resources folder:
+By default Kundera provides a considerable amount of logging information, which can be minimized by adding the following `logback.xml` file to the `resources` folder.
 
 ```xml 
 <configuration>
@@ -395,52 +397,8 @@ em.remove(user);
 </configuration>
 ```
 
-- To create database: `<property name="kundera.ddl.auto.prepare" value="create"/>`
-- To work with stored values, remove previous line
-
-
-Error: RPC true on cassandra:
-
-```shell
-Exception in thread "main" com.impetus.kundera.configure.schema.SchemaGenerationException: org.apache.thrift.transport.TTransportException
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.create(CassandraSchemaManager.java:264)
-	at com.impetus.kundera.configure.schema.api.AbstractSchemaManager.handleOperations(AbstractSchemaManager.java:264)
-	at com.impetus.kundera.configure.schema.api.AbstractSchemaManager.exportSchema(AbstractSchemaManager.java:115)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.exportSchema(CassandraSchemaManager.java:166)
-	at com.impetus.kundera.configure.SchemaConfiguration.configure(SchemaConfiguration.java:191)
-	at com.impetus.kundera.configure.ClientMetadataBuilder.buildClientFactoryMetadata(ClientMetadataBuilder.java:48)
-	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.configureClientFactories(EntityManagerFactoryImpl.java:408)
-	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.configure(EntityManagerFactoryImpl.java:161)
-	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.<init>(EntityManagerFactoryImpl.java:135)
-	at com.impetus.kundera.KunderaPersistence.createEntityManagerFactory(KunderaPersistence.java:85)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
-	at org.davidcampos.cassandra.Main.main(Main.java:23)
-Caused by: org.apache.thrift.transport.TTransportException
-	at org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:132)
-	at org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)
-	at org.apache.thrift.transport.TFramedTransport.readFrame(TFramedTransport.java:129)
-	at org.apache.thrift.transport.TFramedTransport.read(TFramedTransport.java:101)
-	at org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)
-	at org.apache.thrift.protocol.TBinaryProtocol.readAll(TBinaryProtocol.java:429)
-	at org.apache.thrift.protocol.TBinaryProtocol.readI32(TBinaryProtocol.java:318)
-	at org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:219)
-	at org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:69)
-	at org.apache.cassandra.thrift.Cassandra$Client.recv_execute_cql3_query(Cassandra.java:1734)
-	at org.apache.cassandra.thrift.Cassandra$Client.execute_cql3_query(Cassandra.java:1719)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.onCql3CreateKeyspace(CassandraSchemaManager.java:410)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.createKeyspace(CassandraSchemaManager.java:317)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.onCreateKeyspace(CassandraSchemaManager.java:294)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.createOrUpdateKeyspace(CassandraSchemaManager.java:278)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.create(CassandraSchemaManager.java:260)
-	... 11 more
-```
-
-
-## Achilles implementation
-- Maven Dependency
-- User
-- Initialization
-- Write, Read, Update and Delete operations example
+## Achilles
+Achilles requires the following Java dependency to be added to the POM file:
 
 ```xml
 <dependency>
@@ -451,6 +409,7 @@ Caused by: org.apache.thrift.transport.TTransportException
 ```
 ***Code:** Maven dependency for Achilles implementation.*
 
+As presented below, the `UserAchilles` class is defined with the respective Java annotations.
 
 ```java
 @Table(table = "user")
@@ -472,6 +431,12 @@ public class UserAchilles implements User {
 ```
 ***Code:** Achilles User implementation.*
 
+After the definition of the entity classes, Achilles requires to build the project to automatically generate the manager classes that allow to interact with Cassandra. If any change is performed in any entity class, the project needs to be built again to generate the manager classes again. To enable source code auto-complete of such classes on IntelliJ IDEA, the generated classes need to be added as sources of the project, as we can see in the Figure below.
+
+![Architecture](/assets/cassandra-jpa-example/achilles_source_configurations.png){: .image-center .image-rounded-corners .image-width-justify-70}
+***Figure:** Project sources configuration on IntelliJ IDEA.*
+
+The following code snippet presents how to perform connect, write, read, update and delete operations using the `UserAchilles_Manager` class generated by Achilles.
 
 ```java
 // Connect
@@ -509,9 +474,6 @@ manager.crud().delete(user).execute();
 ```
 ***Code:** Example code to perform connect, write, read, update and delete operations using Achilles.*
 
-- Achilles integration with IDE and generating mapping sources sucks
-	- Reminds me of SOAP times
-	- Everytime that you change the POJO classes mapping with the database, you need to rebuild the project to rebuild the classes
 
 ## Elapsed time measurement
 The measurement of the elapsed time is performed to check the execution of the atomic operation only. This means that the time required to create or get `User` objects will not be considered. In the following code example we can check that a `Stopwatch` is used to measure the elapsed time of the `persist` operation only.
@@ -537,8 +499,7 @@ stopwatch.suspend();
 ***Code:** Example code to measure the operation elapsed time.*
 
 
-## Main implementation
-
+## Main
 To get everything together, the `Main` application is created to run the tests for each JPA library, considering the configurations provided in environment variables.
 
 ```java
@@ -560,7 +521,7 @@ public class Main {
 ```
 ***Code:** Main program to run the tests for each JPA library.*
 
-## Configurations implementation
+## Configurations
 
 The following configurations are required to connect with the Apache Cassandra server and configure the tests properly:
 - "EXAMPLE_CASSANDRA_HOST" and "EXAMPLE_CASSANDRA_PORT": Cassandra host and port;
@@ -747,11 +708,14 @@ Dec 15 16:53:54 	1.137GiB / 1.952GiB	58.25%	6.11%
 Dec 15 16:53:56 	1.117GiB / 1.952GiB	57.23%	4.69%
 ```
 
+{% comment %}
 ## Host specifications
 The execution of the previously described tests is performed in a computer with the following Hardware and Software specifications:
 
 ![Specifications](/assets/cassandra-jpa-example/specifications.png){: .image-center .image-rounded-corners}
 ***Figure:** Host specifications.*
+{% endcomment %}
+
 
 # Results
 Please keep in mind that the results collected are highly related with the pre-conditions previously described, namely:
@@ -774,16 +738,16 @@ In average, Kundera performance is 28% better than Achilles, 19% better than Dat
 ![Comparison of Cassandra JPA libraries time](/assets/cassandra-jpa-example/results_time.png){: .image-center .image-width-justify-90}
 ***Figure:** Comparison of Cassandra JPA libraries processing time for the different operation types.*
 
-Jumping into the resources usage analysis, the Figure below presents CPU and RAM usage of the Java application and Cassandra while performing the tests that provided the previously presented results. Overall, **Kundera presents significant lower CPU usages on both Cassandra and Java application**. Regarding RAM usage, there is no significant difference or impact on Cassandra when all JPA libraries are being used. However, Kundera and Achilles seem to use more RAM than Datastax libraries.
-For instance, on the 10K operations test, Kundera presents up to 78% less CPU usage on Cassandra, and up to 41% less CPU usage on Java application. Regarding RAM usage, Kundera and Achilles have more 7% of RAM usage than Datastax libraries.
-Such differences might related with the fact that **Kundera holds operations on RAM before submitting them to Cassandra**, which has a minor impact on RAM usage but a very significant impact on low CPU usage both on client and server applications. However, it is still open to clarify if a higher complexity on the stored data will have a higher impact on RAM usage.
+Jumping into the resources usage analysis, the Figure below presents CPU and RAM consumption of the Java application and Cassandra while performing the tests. Overall, **Kundera presents significant lower CPU usages on both Cassandra and Java application**. Regarding RAM, there is no significant difference or impact on Cassandra when all JPA libraries are being used. However, Kundera and Achilles seem to use more RAM than Datastax libraries.
+For instance, on the 10K operations test, Kundera presents up to 78% less CPU usage on Cassandra, and up to 41% less CPU consumption on Java application. Regarding RAM usage, Kundera and Achilles use more 7% of RAM than Datastax libraries.
+Such differences might related with the fact that **Kundera holds operations on RAM before submitting them to Cassandra**, which has a minor impact on RAM but a very significant impact on low CPU consumption both on client and server applications. However, it is still open to clarify if a higher complexity on the stored data will have a higher impact on RAM usage.
 
 ![Comparison of Cassandra JPA libraries resources](/assets/cassandra-jpa-example/results_resources.png){: .image-center .image-width-justify-90}
 ***Figure:** Comparison of Cassandra JPA libraries resources usage.*
 
 # Conclusion
 
-In conclusion, Kundera presents up to 28% faster performance results with significant lower CPU impact on both client application and Cassandra server. Such interesting results are significant and should be considered while designing your next Cassandra and Java project, in order to reduce resources usage and increase processing throughput. Nevertheless, do not forget to validate the behavior of Kundera with your specific data characteristics, requirements and complexity.
+In conclusion, Kundera presents up to 28% faster performance results with significant lower CPU impact on both client application and Cassandra server. Such interesting results are significant and should be considered while designing your next Cassandra and Java project, in order to reduce resources usage and increase processing throughput. Nevertheless, do not forget to evaluate the behavior of Kundera with your specific data and entities characteristics, requirements and complexity.
 
 ![Nice](/assets/cassandra-jpa-example/nice.gif){: .image-center}
 
