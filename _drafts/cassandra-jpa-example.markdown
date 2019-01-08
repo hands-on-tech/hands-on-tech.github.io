@@ -398,6 +398,44 @@ em.remove(user);
 - To create database: `<property name="kundera.ddl.auto.prepare" value="create"/>`
 - To work with stored values, remove previous line
 
+
+Error: RPC true on cassandra:
+
+```shell
+Exception in thread "main" com.impetus.kundera.configure.schema.SchemaGenerationException: org.apache.thrift.transport.TTransportException
+	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.create(CassandraSchemaManager.java:264)
+	at com.impetus.kundera.configure.schema.api.AbstractSchemaManager.handleOperations(AbstractSchemaManager.java:264)
+	at com.impetus.kundera.configure.schema.api.AbstractSchemaManager.exportSchema(AbstractSchemaManager.java:115)
+	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.exportSchema(CassandraSchemaManager.java:166)
+	at com.impetus.kundera.configure.SchemaConfiguration.configure(SchemaConfiguration.java:191)
+	at com.impetus.kundera.configure.ClientMetadataBuilder.buildClientFactoryMetadata(ClientMetadataBuilder.java:48)
+	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.configureClientFactories(EntityManagerFactoryImpl.java:408)
+	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.configure(EntityManagerFactoryImpl.java:161)
+	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.<init>(EntityManagerFactoryImpl.java:135)
+	at com.impetus.kundera.KunderaPersistence.createEntityManagerFactory(KunderaPersistence.java:85)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
+	at org.davidcampos.cassandra.Main.main(Main.java:23)
+Caused by: org.apache.thrift.transport.TTransportException
+	at org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:132)
+	at org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)
+	at org.apache.thrift.transport.TFramedTransport.readFrame(TFramedTransport.java:129)
+	at org.apache.thrift.transport.TFramedTransport.read(TFramedTransport.java:101)
+	at org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)
+	at org.apache.thrift.protocol.TBinaryProtocol.readAll(TBinaryProtocol.java:429)
+	at org.apache.thrift.protocol.TBinaryProtocol.readI32(TBinaryProtocol.java:318)
+	at org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:219)
+	at org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:69)
+	at org.apache.cassandra.thrift.Cassandra$Client.recv_execute_cql3_query(Cassandra.java:1734)
+	at org.apache.cassandra.thrift.Cassandra$Client.execute_cql3_query(Cassandra.java:1719)
+	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.onCql3CreateKeyspace(CassandraSchemaManager.java:410)
+	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.createKeyspace(CassandraSchemaManager.java:317)
+	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.onCreateKeyspace(CassandraSchemaManager.java:294)
+	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.createOrUpdateKeyspace(CassandraSchemaManager.java:278)
+	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.create(CassandraSchemaManager.java:260)
+	... 11 more
+```
+
+
 ## Achilles implementation
 - Maven Dependency
 - User
@@ -475,46 +513,34 @@ manager.crud().delete(user).execute();
 	- Reminds me of SOAP times
 	- Everytime that you change the POJO classes mapping with the database, you need to rebuild the project to rebuild the classes
 
+## Elapsed time measurement
+The measurement of the elapsed time is performed to check the execution of the atomic operation only. This means that the time required to create or get `User` objects will not be considered. In the following code example we can check that a `Stopwatch` is used to measure the elapsed time of the `persist` operation only.
 
+```java
+// Get UUID
+UUID uuid = Commons.uuids.get(repetition * Commons.OPERATIONS + i);
 
+// Create user
+UserKundera user = new UserKundera(
+		uuid,
+		"John" + i,
+		"Smith" + i,
+		"London" + i
+);
+users.put(uuid, user);
 
-Error: RPC true on cassandra:
-
-```shell
-Exception in thread "main" com.impetus.kundera.configure.schema.SchemaGenerationException: org.apache.thrift.transport.TTransportException
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.create(CassandraSchemaManager.java:264)
-	at com.impetus.kundera.configure.schema.api.AbstractSchemaManager.handleOperations(AbstractSchemaManager.java:264)
-	at com.impetus.kundera.configure.schema.api.AbstractSchemaManager.exportSchema(AbstractSchemaManager.java:115)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.exportSchema(CassandraSchemaManager.java:166)
-	at com.impetus.kundera.configure.SchemaConfiguration.configure(SchemaConfiguration.java:191)
-	at com.impetus.kundera.configure.ClientMetadataBuilder.buildClientFactoryMetadata(ClientMetadataBuilder.java:48)
-	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.configureClientFactories(EntityManagerFactoryImpl.java:408)
-	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.configure(EntityManagerFactoryImpl.java:161)
-	at com.impetus.kundera.persistence.EntityManagerFactoryImpl.<init>(EntityManagerFactoryImpl.java:135)
-	at com.impetus.kundera.KunderaPersistence.createEntityManagerFactory(KunderaPersistence.java:85)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
-	at org.davidcampos.cassandra.Main.main(Main.java:23)
-Caused by: org.apache.thrift.transport.TTransportException
-	at org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:132)
-	at org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)
-	at org.apache.thrift.transport.TFramedTransport.readFrame(TFramedTransport.java:129)
-	at org.apache.thrift.transport.TFramedTransport.read(TFramedTransport.java:101)
-	at org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)
-	at org.apache.thrift.protocol.TBinaryProtocol.readAll(TBinaryProtocol.java:429)
-	at org.apache.thrift.protocol.TBinaryProtocol.readI32(TBinaryProtocol.java:318)
-	at org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:219)
-	at org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:69)
-	at org.apache.cassandra.thrift.Cassandra$Client.recv_execute_cql3_query(Cassandra.java:1734)
-	at org.apache.cassandra.thrift.Cassandra$Client.execute_cql3_query(Cassandra.java:1719)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.onCql3CreateKeyspace(CassandraSchemaManager.java:410)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.createKeyspace(CassandraSchemaManager.java:317)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.onCreateKeyspace(CassandraSchemaManager.java:294)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.createOrUpdateKeyspace(CassandraSchemaManager.java:278)
-	at com.impetus.client.cassandra.schemamanager.CassandraSchemaManager.create(CassandraSchemaManager.java:260)
-	... 11 more
+// Store user
+Commons.resumeOrStartStopWatch(stopwatch);
+em.persist(user);
+stopwatch.suspend();
 ```
+***Code:** Example code to measure the operation elapsed time.*
+
 
 ## Main implementation
+
+To get everything together, the `Main` application is created to run the tests for each JPA library, considering the configurations provided in environment variables.
+
 ```java
 public class Main {
     public static void main(final String... args) throws InterruptedException {
@@ -532,20 +558,17 @@ public class Main {
     }
 }
 ```
-***Code:** Configurations to set tests characteristics.*
+***Code:** Main program to run the tests for each JPA library.*
 
 ## Configurations implementation
 
-The following configurations are required:
-- "EXAMPLE_KAFKA_SERVER": Kafka server connection string to send and receive messages;
-- "EXAMPLE_KAFKA_TOPIC": name of the Kafka topic to send and receive messages;
-- "EXAMPLE_ZOOKEEPER_SERVER": Zookeeper server connection string to create Kafka topic.
+The following configurations are required to connect with the Apache Cassandra server and configure the tests properly:
+- "EXAMPLE_CASSANDRA_HOST" and "EXAMPLE_CASSANDRA_PORT": Cassandra host and port;
+- "EXAMPLE_OPERATIONS": number of operations to run;
+- "EXAMPLE_REPETITIONS": number of times to repeat operations execution and average values;
+- "EXAMPLE_CYCLES": number of times to repeat tests execution and average values.
 
-Such configurations will be loaded from environment variables using the Commons class, which assumes default values if no environment variables are defined.
-
-- iterations
-- repetitions
-- UUIDs
+Such configurations will be loaded from environment variables using the Commons class, which assumes default values if no environment variables are defined. Moreover, unique identifiers are also generated to perform each operation using an UUID that was never used before, creating `EXAMPLE_OPERATIONS*EXAMPLE_REPETITIONS` unique identifiers.
 
 ```java
 public final static int OPERATIONS = System.getenv("EXAMPLE_OPERATIONS") != null ?
@@ -569,7 +592,7 @@ public final static String EXAMPLE_CASSANDRA_PORT = System.getenv("EXAMPLE_CASSA
 
 # Packaging
 
-Finally, in order to build fat JAR file with all dependencies included, the Maven Assembly Plugin was used with the following configurations:
+To build fat JAR file with all dependencies included, the Maven Assembly Plugin was used with the following configurations:
 
 ```xml
 <build>
@@ -670,14 +693,13 @@ To create the container to run the Java application with the tests, the previous
 ***Code:** Part of `docker-compose.yml` file for running Java application.*
 
 
-# Collect CPU and RAM usage
-- to get docker stats:
-	- install brew install moreutils
-	- sh script
+# CPU and RAM usage
+
+To collect resources usage of Cassandra and Java application separately, we decided to take advantage of the [`docker stats`](https://docs.docker.com/engine/reference/commandline/stats/){:target="_blank"} utility, which provides detailed RAM and CPU usage of a target container and also allows to customize the output data format. The following script allows to continuously collect Cassandra's container resources usage and store the results in the TSV file `stats-cassandra.tsv`.
 
 ```bash
 #!/usr/bin/env bash
-while true; do docker stats --no-stream cassandra-jpa-example_cassandra_1 --format "\t{{.MemUsage}}\t{{.MemPerc}}\t{{.CPUPerc}}" | ts >> stats-cassandra.tsv; done
+{% raw %} while true; do docker stats --no-stream cassandra-jpa-example_cassandra_1 --format "\t{{.MemUsage}}\t{{.MemPerc}}\t{{.CPUPerc}}" | ts >> stats-cassandra.tsv; done {% endraw %}
 ```
 ***Code:** Script to collect RAM and CPU usage of a docker container.*
 
@@ -726,28 +748,45 @@ Dec 15 16:53:56 	1.117GiB / 1.952GiB	57.23%	4.69%
 ```
 
 ## Host specifications
+The execution of the previously described tests is performed in a computer with the following Hardware and Software specifications:
 
 ![Specifications](/assets/cassandra-jpa-example/specifications.png){: .image-center .image-rounded-corners}
 ***Figure:** Host specifications.*
 
 # Results
-Running for 1000, 5000 and 10000 iterations with 3 repetitions for each test.
+Please keep in mind that the results collected are highly related with the pre-conditions previously described, namely:
+- Elapsed time measured considering atomic operations only;
+- Single thread application to perform operations;
+- Tests executed on macOS using a MacBook Pro with 4 cores @ 2,3GHz and 16GB RAM;
+- Cassandra and Java Application running on top of Docker;
+- CPU and RAM usage collected using `docker stats`.
+
+The results were collected with the following configurations:
+- **Number of operations**: 1000, 5000 and 10000;
+- **Number of repetitions**: 3;
+- **Number of cycles**: 3.
+
+The Figure below presents the average of the measured times for the several libraries and operation types.
+Overall, delete operations are the fastest ones, followed by the write tasks. As expected by Cassandra architecture and functionality, read operations are the ones that take longer execution time.
+When comparing the used JPA libraries, **Kundera presents the fastest performance times in write, read, update and delete operation types**. On the other hand, Achilles presents the worst results. Comparing the best with the worst library, for 10K operations we have an average difference of 3.2 seconds. If we extrapolate for **10M operations**, this execution **time difference can reach almost 1 hour**.
+In average, Kundera performance is 28% better than Achilles, 19% better than Datastax, and 24% better than Native. It is quite interesting to see that Datastax ORM presents similar or better time measurements than Datastax Native. Keep in mind that the low complexity of the `User` data is not adding significant complexity on top of native and ORM solutions.
 
 ![Comparison of Cassandra JPA libraries time](/assets/cassandra-jpa-example/results_time.png){: .image-center .image-width-justify-90}
-***Figure:** Comparison of Cassandra JPA libraries processing time for the different atomic operations.*
+***Figure:** Comparison of Cassandra JPA libraries processing time for the different operation types.*
+
+Jumping into the resources usage analysis, the Figure below presents CPU and RAM usage of the Java application and Cassandra while performing the tests that provided the previously presented results. Overall, **Kundera presents significant lower CPU usages on both Cassandra and Java application**. Regarding RAM usage, there is no significant difference or impact on Cassandra when all JPA libraries are being used. However, Kundera and Achilles seem to use more RAM than Datastax libraries.
+For instance, on the 10K operations test, Kundera presents up to 78% less CPU usage on Cassandra, and up to 41% less CPU usage on Java application. Regarding RAM usage, Kundera and Achilles have more 7% of RAM usage than Datastax libraries.
+Such differences might related with the fact that **Kundera holds operations on RAM before submitting them to Cassandra**, which has a minor impact on RAM usage but a very significant impact on low CPU usage both on client and server applications. However, it is still open to clarify if a higher complexity on the stored data will have a higher impact on RAM usage.
 
 ![Comparison of Cassandra JPA libraries resources](/assets/cassandra-jpa-example/results_resources.png){: .image-center .image-width-justify-90}
 ***Figure:** Comparison of Cassandra JPA libraries resources usage.*
 
+# Conclusion
 
-
+In conclusion, Kundera presents up to 28% faster performance results with significant lower CPU impact on both client application and Cassandra server. Such interesting results are significant and should be considered while designing your next Cassandra and Java project, in order to reduce resources usage and increase processing throughput. Nevertheless, do not forget to validate the behavior of Kundera with your specific data characteristics, requirements and complexity.
 
 ![Nice](/assets/cassandra-jpa-example/nice.gif){: .image-center}
 
+Please tell me if you had different results using this or other JPA libraries. Your comments, suggestions and contributions are more than welcome. 
 
-# Conclusion
-
-
-Please remember that your comments, suggestions and contributions are more than welcome. 
-
-**Happy Cassandring! :smile:**
+**Happy new and techy 2019! :smile: :fireworks:**
