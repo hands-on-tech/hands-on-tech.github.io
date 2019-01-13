@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "Cassandra with JPA: Achilles vs. Datastax vs. Kundera"
-subtitle:  "Comparison of Cassandra JPA libraries usage, performance and computational resources consumption."
+title:  "Apache Cassandra with JPA: Achilles vs. Datastax vs. Kundera"
+subtitle:  "Comparison of Apache Cassandra JPA libraries usage, performance and computational resources consumption."
 date:   2019-01-13 10:00:00 +0100
 author: david_campos
-tags: cassandra jpa datastax kundera achilles java docker
+tags: apache cassandra jpa orm datastax kundera achilles java docker
 comments: true
 read_time: true
 background: '/assets/cassandra-jpa-example/background.jpg'
@@ -12,7 +12,7 @@ math: true
 ---
 
 # TL;DR
-Use JPA libraries to communicate with Cassandra comparing Achilles, Datastax and Kundera. The last one presents the better processing speeds with lower computational resources consumption.
+Use JPA libraries to communicate with Apache Cassandra comparing Achilles, Datastax and Kundera. The last one presents the better processing speeds with lower computational resources consumption.
 
 **Source code is available on [Github](https://github.com/hands-on-tech/cassandra-jpa-example){:target="_blank"}** with detailed documentation on how to build and run the tests using Docker.
 
