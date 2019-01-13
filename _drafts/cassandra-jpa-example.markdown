@@ -12,14 +12,14 @@ math: true
 ---
 
 # TL;DR
-Project using JPA to communicate with Cassandra comparing Achilles, Datastax and Kundera libraries. Kundera presents better processing speeds also with lower computational resources usage.
+Use JPA libraries to communicate with Cassandra comparing Achilles, Datastax and Kundera. The last one presents the better processing speeds with lower computational resources consumption.
 
 **Source code is available on [Github](https://github.com/hands-on-tech/cassandra-jpa-example){:target="_blank"}** with detailed documentation on how to build and run the tests using Docker.
 
 # Goal
-With the overwhelming amounts of data being generated in nowadays technological solutions, one of the main challenges is to find the best solutions to properly store, manage and serve huge amounts of data. Apache Cassandra is one of such solutions, which is a NoSQL database designed for large-scale data management with high availability, consistency and performance. When performing millions of operations per day on top of such databases, every millisecond counts with significant impact on overall system behaviour.
+With the overwhelming amounts of data being generated in nowadays technological solutions, one of the main challenges is to find the best solutions to properly store, manage and serve huge amounts of data. Apache Cassandra is one of such solutions, which is a NoSQL database designed for large-scale data management with high availability, consistency and performance. When performing millions of operations per day on top of such databases, every millisecond counts with significant impact on overall system behavior.
 
-**The main goal of this project is to use different Java libraries to communicate with Cassandra, comparing usage complexity, processing speeds and resources usage**. The following architecture is proposed to achieve the aforementioned goal, which contains the following components and interfaces:
+**The main goal of this project is to use different JPA libraries to communicate with Cassandra, comparing usage complexity, processing speeds and resources usage**. The following architecture is proposed to achieve the aforementioned goal, which contains the following components and interfaces:
 - **Cassandra**: database for large-scale data management;
 - **Datastax Native**: Java library to communicate with Cassandra;
 - **Datastax ORM**: Java library to communicate with Cassandra;
@@ -29,41 +29,43 @@ With the overwhelming amounts of data being generated in nowadays technological 
 ![Architecture](/assets/cassandra-jpa-example/architecture.svg){: .image-center}
 ***Figure:** Illustration of the implementation architecture of the Cassandra and JPA.*
 
-The aforementioned architecture is provided using following technologies:
+The architecture is implemented using following technologies:
 - **Jave 8**: main programming language for experiment;
 - **Maven**: dependency management and package building;
 - **Docker**: components containerization, orchestration and setup;
 - **Docker Compose**: simplify running multi-container solutions with dependencies.
 
 # Apache Cassandra
-- Key concepts
-- Performance comparison with other NoSQL databases
+[Apache Cassandra](http://cassandra.apache.org){:target="_blank"} is an open-source and distributed column-based database, designed for large-scale applications and to handle large amounts of data with high availability with no single point of failure. It was initially developed at Facebook and is currently part of the Apache Software Foundation. 
+Nowadays, Apache Cassandra is one of the most used NoSQL databases, as we can see in the Figure below:
 
-
-![NoSQL Popularity](/assets/cassandra-jpa-example/nosql_popularity.png){: .image-center .image-rounded-corners}
+![NoSQL Popularity](/assets/cassandra-jpa-example/nosql_popularity.png){: .image-center .image-rounded-corners .image-width-justify-70}
 ***Figure:** Popularity of several NoSQL databases from [DB-Engines](https://db-engines.com){:target="_blank"}.*
 
-Not straighforward to find isent and transparent comparisons of NoSQL solutions.
+When comparing Cassandra with other NoSQL databases, various studies already present a detailed evaluation and comparison, such as:
+[End Point](http://www.datastax.com/wp-content/themes/datastax-2014-08/files/NoSQL_Benchmarks_EndPoint.pdf){:target="_blank"},
+[Altoros](https://info.couchbase.com/rs/302-GJY-034/images/2018Altoros_NoSQL_Performance_Benchmark.pdf){:target="_blank"}, and
+[Çankaya University](https://www.researchgate.net/profile/Murat_Saran/publication/321622083_A_Comparison_of_NoSQL_Database_Systems_A_Study_on_MongoDB_Apache_Hbase_and_Apache_Cassandra/links/5a29173a4585155dd42796db/A-Comparison-of-NoSQL-Database-Systems-A-Study-on-MongoDB-Apache-Hbase-and-Apache-Cassandra.pdf){:target="_blank"}.
+Overall, Cassandra presents top results when used with large amounts of data and with multiple nodes, achieving high throughput with low latency. Using Cassandra will be of added value when:
+- Run on more than one server node, specially with a geographically distributed cluster;
+- Data can be partitioned via a key, which allows the database to be spread across multiple nodes;
+- Writes exceed reads by a large margin;
+- Read access is performed by a known primary key;
+- Data is rarely updated;
+- There is no need to perform join or aggregate operations (e.g., sum, min, or max), since they must be pre-computed and stored.
 
-Performance comparisons:
--  Çankaya University: https://www.researchgate.net/profile/Murat_Saran/publication/321622083_A_Comparison_of_NoSQL_Database_Systems_A_Study_on_MongoDB_Apache_Hbase_and_Apache_Cassandra/links/5a29173a4585155dd42796db/A-Comparison-of-NoSQL-Database-Systems-A-Study-on-MongoDB-Apache-Hbase-and-Apache-Cassandra.pdf
+Many companies are effectively using Cassandra as the core data storage and management solution, such as
+[CapitalOne](https://www.datastax.com/customers/capital-one){:target="_blank"},
+[Coursera](https://www.datastax.com/resources/casestudies/coursera){:target="_blank"},
+[eBay](https://www.datastax.com/resources/casestudies/ebay){:target="_blank"},
+[Hulu](https://www.datastax.com/resources/casestudies/hulu){:target="_blank"} and
+[NASA](https://www.datastax.com/2012/08/the-five-minute-interview-nasa){:target="_blank"}.
+Such examples show that Cassandra can be used with different types of data and targeting different purposes, such as financial, health, entertainment, web analytics and IoT.
 
-
-- Cassandra Frieds: (End Point company)http://www.datastax.com/wp-content/themes/datastax-2014-08/files/NoSQL_Benchmarks_EndPoint.pdf
-- Couchbase friends: https://info.couchbase.com/rs/302-GJY-034/images/2018Altoros_NoSQL_Performance_Benchmark.pdf
-
-![NoSQL Performance](/assets/cassandra-jpa-example/nosql_performance.png){: .image-center .image-rounded-corners}
-***Figure:** Performance of several NoSQL databases from [EndPoint](http://www.datastax.com/wp-content/themes/datastax-2014-08/files/NoSQL_Benchmarks_EndPoint.pdf){:target="_blank"}.*
-
-Overall, Cassandra better at large-scale and more write than read use cases.
-
-
-
-
+Apache Cassandra is available in major cloud providers, such as Amazon AWS, Microsoft Azure and Google Cloud. However, both Amazon and Microsoft provide their own NoSQL database implementations ([DynamoDB](https://aws.amazon.com/dynamodb){:target="_blank"} and [CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/){:target="_blank"}), with support for Cassandra APIs and migration. Other companies provide enterprise support for on-premises or cloud installation and maintenance, such as [Datastax](https://www.datastax.com/products/datastax-distribution-of-apache-cassandra){:target="_blank"} and [Bitnami](https://bitnami.com/stack/cassandra){:target="_blank"}.
 
 
 # JPA libraries for Cassandra
-
 The [official Cassandra documentation page](http://cassandra.apache.org/doc/latest/getting_started/drivers.html){:target="_blank"} presents a comprehensive list of available libraries to communicate with Cassandra using Java. A brief analysis shows that only some projects are active and have significant community support:
 - **[Achilles](https://github.com/doanduyhai/Achilles){:target="_blank"}**: active project with small community;
 - **[Astyanax](https://github.com/Netflix/astyanax){:target="_blank"}**: deprecated and is no longer supported;
@@ -75,7 +77,6 @@ The [official Cassandra documentation page](http://cassandra.apache.org/doc/late
 Based on such analysis, **Achilles**, **Datastax** and **Kundera** are the JPA libraries that will be considered during this analysis. To have a point of comparison, both **Datastax Native** and **Datastax ORM** implementations will be used.
 
 # How to compare JPA libraries?
-
 In order to have a fair performance and resources usage comparison of the several JPA libraries for Cassandra, it is important to consider and analyse several questions in detail, such as:
 - Which database operations should be executed and compared?
 - What type of data should be considered?
@@ -123,8 +124,10 @@ END FOR
 
 While executing the operations in the Java application, CPU and RAM resources usage will be collected on both client and server applications. By doing this we are able to evaluate if there is any significant impact of each JPA library on the Java application and Cassandra server resources usage.
 
+If you would like to check the results right away, you can jump to the [Results](#results) section below.
+
 # Implementation
-The Java application implementation was performed to minimize code replication as much as possible. However, different `User` classes are required to provide the Java annotations required by each one. Thus, the following Figure illustrates how the `User` interface is used to make sure different `User` classes implement the required methods.
+The Java application implementation was performed to minimize code replication as much as possible. However, different `User` classes are required to provide the specific Java annotations. Thus, the following Figure illustrates how the `User` interface is used to make sure different `User` classes implement the required methods.
 
 ![Architecture](/assets/cassandra-jpa-example/code_user.svg){: .image-center}
 ***Figure:** Illustration of the `User` implementation.*
