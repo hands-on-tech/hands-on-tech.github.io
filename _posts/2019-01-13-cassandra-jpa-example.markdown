@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Cassandra with JPA: Achilles vs. Datastax vs. Kundera"
-subtitle:  "Comparison of Cassandra JPA libraries usage, performance and resources usage."
-date:   2018-11-02 10:00:00 +0100
+subtitle:  "Comparison of Cassandra JPA libraries usage, performance and computational resources consumption."
+date:   2019-01-13 10:00:00 +0100
 author: david_campos
 tags: cassandra jpa datastax kundera achilles java docker
 comments: true
@@ -22,12 +22,12 @@ With the overwhelming amounts of data being generated in nowadays technological 
 **The main goal of this project is to use different JPA libraries to communicate with Cassandra, comparing usage complexity, processing speeds and resources usage**. The following architecture is proposed to achieve the aforementioned goal, which contains the following components and interfaces:
 - **Cassandra**: database for large-scale data management;
 - **Datastax Native**: Java library to communicate with Cassandra;
-- **Datastax ORM**: Java library to communicate with Cassandra;
-- **Kundera**: Java library to communicate with Cassandra;
-- **Achilles**: Java library to communicate with Cassandra.
+- **Datastax ORM**: JPA library to communicate with Cassandra;
+- **Kundera**: JPA library to communicate with Cassandra;
+- **Achilles**: JPA library to communicate with Cassandra.
 
 ![Architecture](/assets/cassandra-jpa-example/architecture.svg){: .image-center}
-***Figure:** Illustration of the implementation architecture of the Cassandra and JPA.*
+***Figure:** Illustration of the implementation architecture of Cassandra and JPA clients.*
 
 The architecture is implemented using following technologies:
 - **Jave 8**: main programming language for experiment;
@@ -46,7 +46,7 @@ When comparing Cassandra with other NoSQL databases, various studies already pre
 [End Point](http://www.datastax.com/wp-content/themes/datastax-2014-08/files/NoSQL_Benchmarks_EndPoint.pdf){:target="_blank"},
 [Altoros](https://info.couchbase.com/rs/302-GJY-034/images/2018Altoros_NoSQL_Performance_Benchmark.pdf){:target="_blank"}, and
 [Çankaya University](https://www.researchgate.net/profile/Murat_Saran/publication/321622083_A_Comparison_of_NoSQL_Database_Systems_A_Study_on_MongoDB_Apache_Hbase_and_Apache_Cassandra/links/5a29173a4585155dd42796db/A-Comparison-of-NoSQL-Database-Systems-A-Study-on-MongoDB-Apache-Hbase-and-Apache-Cassandra.pdf){:target="_blank"}.
-Overall, Cassandra presents top results when used with large amounts of data and with multiple nodes, achieving high throughput with low latency. Using Cassandra will be of added value when:
+Overall, Cassandra presents top results when used with large amounts of data and with multiple nodes, achieving high throughput with low latency. Thus, Cassandra might be recommended when:
 - Run on more than one server node, specially with a geographically distributed cluster;
 - Data can be partitioned via a key, which allows the database to be spread across multiple nodes;
 - Writes exceed reads by a large margin;
