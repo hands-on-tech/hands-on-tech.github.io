@@ -10,6 +10,6 @@ read_time: true
 background: '/assets/hello-world/background.jpg'
 ---
 
-The goal of the first post is to validate the deployment process on GitHub pages using Jenkyll.
+The goal of the first post is to validate the deployment process on GitHub pages using Jekyll.
 
 Next post will be published soon! :smirk:
