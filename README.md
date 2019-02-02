@@ -16,3 +16,6 @@ List of ideas for blog posts:
 - Blockchain first steps
 - Home automation with Home Assistant + Gateway + Light + Button + Power socket
 - Apache Impala
+- API management + OAuth
+- Vault for centralized credentials management
+- Presto
