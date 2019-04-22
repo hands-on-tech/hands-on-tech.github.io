@@ -1,3 +1,3 @@
 New blog post about Apache Cassandra with JPA libraries. Comments and suggestions are welcome!
-#cassandra #jpa #achilles #datastax #kundera #java #docker
+#cassandra #jpa #achilles #datastax #kundera #java #docker #data
 https://hands-on-tech.github.io/2019/01/13/cassandra-jpa-example.html
