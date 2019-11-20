@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "github-pages", 197, group: :jekyll_plugins
+gem "github-pages", 202, group: :jekyll_plugins
 # Hello! This is where you manage which Jekyll version is used to run.
 # When you want to use a different version, change it below, save the
 # file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
@@ -9,10 +9,10 @@ gem "github-pages", 197, group: :jekyll_plugins
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "~> 3.7.3"
+gem "jekyll", "~> 3.8.5"
 gem "jekyll-seo-tag", "~> 2.5.0"
 
-gem "rouge", "~> 2.2.1"
+gem "rouge", "~> 3.11.0"
 gem "kramdown", "~> 1.17.0"
 gem 'jemoji', "~> 0.10.2"
 
@@ -27,6 +27,7 @@ group :jekyll_plugins do
   gem "jekyll-minifier", "~> 0.1.6"
   gem "jekyll-sitemap", "~> 1.2.0"
   gem "jekyll-email-protect", "~> 1.1.0"
+  gem "jekyll-target-blank", "~> 2.0.0"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
