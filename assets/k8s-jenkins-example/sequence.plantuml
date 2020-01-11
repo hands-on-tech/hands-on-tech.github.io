@@ -1,0 +1,39 @@
+@startuml
+actor "Developer" as developer
+participant "GitHub" as git
+participant "Jenkins" as jenkins
+participant "DockerHub" as registry
+participant "Tiller" as tiller
+participant "Kubernetes" as k8s
+participant "Traefik" as traefik
+participant "Application" as application
+
+== Build and Deploy Application ==
+developer -> git: Push code
+git -> developer: OK
+
+git -> jenkins: Notify
+
+jenkins -> jenkins: Run job
+jenkins -> git: Checkout code
+git -> jenkins: Code
+jenkins -> jenkins: Build application
+jenkins -> jenkins: Build docker image
+
+jenkins -> registry: Push docker image
+registry -> jenkins: OK
+
+jenkins -> tiller: Create or update\nHelm chart
+
+tiller -> k8s: Create or update\ndeployment, service,\ningress, pod and containers
+k8s -> tiller: OK
+
+tiller -> jenkins: OK
+
+== Access Application ==
+developer -> traefik: /GET greeting
+traefik -> application: /GET greeting
+application -> traefik: OK
+traefik -> developer: OK
+
+@enduml

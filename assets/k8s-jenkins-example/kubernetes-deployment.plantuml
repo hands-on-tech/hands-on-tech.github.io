@@ -1,0 +1,35 @@
+@startuml
+left to right direction
+
+rectangle "Namespace" {
+    component "Ingress" as ingress {
+        component "/path" as path
+    }
+
+    component "Service" as service {
+        component "80:TCP" as port
+    }
+
+    component "Deployment" as deployment {
+        component "Replica Set" {
+            component "Pod" as pod {
+                component "Container 1"
+                component "Container 2"
+            }
+        }
+    }
+
+    component "Persistent Volume" as volume {
+        component "/folder"
+    }
+
+    path -down-> port
+    service -right-> pod
+    pod --> volume
+
+
+    ingress -[hidden]- service
+    service -[hidden]- deployment
+}
+
+@enduml

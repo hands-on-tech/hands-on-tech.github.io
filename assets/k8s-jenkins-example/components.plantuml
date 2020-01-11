@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+
+node "Kubernetes" {
+    component "Jenkins" as jenkins
+    component "Traefik" as traefik
+    component "Dashboard" as dashboard
+    component "Application\nProduction" as applicationP
+    component "Application\nStaging" as applicationS
+    
+    [traefik] -down-> [jenkins]
+    [traefik] -down-> [dashboard]
+    [traefik] -down-> [applicationP]
+    [traefik] -down-> [applicationS]
+}
+
+actor "Developer" as developer
+[developer] -down-> [traefik]
+
+cloud "Cloud" {
+    component "GitHub" as git
+    component "DockerHub" as registry
+}
+
+@enduml
