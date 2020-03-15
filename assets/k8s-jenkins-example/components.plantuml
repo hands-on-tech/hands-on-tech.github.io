@@ -4,7 +4,7 @@ left to right direction
 node "Kubernetes" {
     component "Jenkins" as jenkins
     component "Traefik" as traefik
-    component "Dashboard" as dashboard
+    component "Kubernetes\nDashboard" as dashboard
     component "Application\nProduction" as applicationP
     component "Application\nStaging" as applicationS
     

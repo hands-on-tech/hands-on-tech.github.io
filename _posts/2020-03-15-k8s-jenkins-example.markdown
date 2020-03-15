@@ -2,7 +2,7 @@
 layout: post
 title:  "Flexible CI/CD with with Kubernetes, Helm, Traefik and Jenkins"
 subtitle: ""
-date:   2019-10-06 10:00:00 +0100
+date:   2020-03-15 10:00:00 +0100
 author: david_campos
 tags: kubernetes k8s cluster helm traefik ingress continuos integration deployment ci/cd jenkins kotlin
 comments: true
@@ -27,7 +27,7 @@ The main goal is to present a **flexible CI/CD solution** on top of **Kubernetes
 To fulfill the mentioned steps and validate the presented CI/CD solution, the architecture with the following components is proposed:
 - **Kubernetes**: for containers management and orchestration;
 - **Traefik**: as proxy and load balancer to access services;
-- **Dashboard**: to manage Kubernetes through a web-based interface;
+- **Kubernetes Dashboard**: to manage Kubernetes through a web-based interface;
 - **Jenkins**: as automation server to automatically build and deploy application;
 - **GitHub**: to manage source code using Git;
 - **DockerHub**: as registry to manage the Docker image with the example application;
@@ -143,8 +143,8 @@ version.BuildInfo{Version:"v3.1.1", GitCommit:"afe70585407b420d0097d07b21c47dc51
 
 [Traefik offers a stable and official Helm chart](https://github.com/helm/charts/tree/master/stable/traefik) that can be used for straightforward installation and configuration on Kubernetes.
 The following configuration values are provided to the chart, in order to configure:
-- **Dashboard**: enable access to dashboard through the domain "traefik.localhost", using the admin as username and password;
-- **SSL**: enable and enforce SSL for all proxied services, with automatically generated wildcard SSL certificate for the "*.localhost" domain.
+- access to **Traefik dashboard** through the domain "traefik.localhost", using the admin as username and password;
+- enforce **SSL** for all proxied services, with automatically generated wildcard SSL certificate for the "*.localhost" domain.
 
 ```yaml
 dashboard:
@@ -178,7 +178,7 @@ kubectl get deployments
 kubectl get pods
 ```
 
-When the deployment ready status is "1/1" (1 ready out of 1 required), visit <http://traefik.localhost/> to access the dashboard and login with previously defined username and password. In the dashboard one can check the entry points (frontends) available to access the deployed services (backends).
+When the deployment ready status is "1/1" (1 ready out of 1 required), visit <http://traefik.localhost/> to access the Traefik dashboard and login with previously defined username and password. In the dashboard one can check the entry points (frontends) available to access the deployed services (backends).
 
 ![Traefik Dashboard](/assets/k8s-jenkins-example/traefik-dashboard.png){: .image-center .img-thumbnail}
 ***Figure:** Traefik dashboard.*
@@ -475,7 +475,7 @@ kubectl get ingress
 
 ##1. Pipeline
 
-The goal is to build the **pipeline** taking **full advantage of Kubernetes**, building the required artifacts on dedicated agents executed on-demand. Such approach provides high flexibility and independency for **developers**, which are in **full control of their building pipelines** and without dependencies to whatever is installed on the Jenkins host machine. As a result, the Jenkins machine will not be polluted with many different tools and versions.
+The goal is to build the **pipeline** taking **full advantage of Kubernetes**, building the required artifacts on dedicated agents executed on-demand. Such approach provides high flexibility and independency for **developers**, which are in **full control of their building pipelines** and without dependencies to whatever is installed on the Jenkins host machine. As a result, the Jenkins machine will not be polluted with many different tools and versions. For instance, if one team needs Java 8 and another needs Java 13, the Jenkins host machine does not need to have both installed, since each team pipeline will run on its own Jenkins agent that is deployed on-demand for each run.
 To achieve that, we used the [Kubernetes Jenkins plugin](https://github.com/jenkinsci/kubernetes-plugin), which allows to **define a pod with containers with required tools**. Then, we just have to mention that we want to run a specific step inside a specific container by referencing its name.
 
 Keep in mind that a **workspace volume is automatically created and shared between containers** in the pod, which means that any change on the workspace will be available for other containers. For instance, if we use the maven container to create the packaged jar file, it will be available for the docker container to create the docker image. Moreover, in order to speed up the building process, do not forget to create a volume for the maven `~/.m2` folder, in order to share downloaded dependencies between job runs.
@@ -526,7 +526,7 @@ Before jumping into the pipeline, we need to define the credentials that will be
 ![Jenkins Credentials](/assets/k8s-jenkins-example/jenkins-credentials.png){: .image-center .img-thumbnail width="70%"}
 ***Figure:** Jenkins credentials.*
 
-For the pipeline we decided to use the [declarative syntax](https://jenkins.io/doc/book/pipeline/syntax/) instead of scripted, which is a better fit for simple pipelines and easier to read and understand. However, the more restrictive syntax can be a limitation if we want to perform more advanced tasks. For such cases, [a script block can be defined in a declarative pipeline](https://jenkins.io/doc/book/pipeline/syntax/#script).
+For the pipeline I decided to use the [declarative syntax](https://jenkins.io/doc/book/pipeline/syntax/) instead of scripted, which is a better fit for simple pipelines and easier to read and understand. However, the more restrictive syntax can be a limitation if we want to perform more advanced tasks. For such cases, [a script block can be defined in a declarative pipeline](https://jenkins.io/doc/book/pipeline/syntax/#script).
 In summary, the CI/CD declarative pipeline for the sample application will have the following stages:
 1. **Build**: build application package using maven;
 2. **Docker Build**: build docker image using previously created Dockerfile;
@@ -613,7 +613,7 @@ After saving the Jenkins job, you should be able to see it in the list, explore 
 
 #1. Validate
 
-Now that all pieces are running together and we checked the core functionality, let's validate if the solution is up for the typical development process:
+Now that all pieces are running together and we checked the core functionality, let's validate if the solution is up for a typical [GitFlow](https://nvie.com/posts/a-successful-git-branching-model/) development process:
 
 1. Build master branch Jenkins job;
 2. **Check** that **production deploy** is running and provides the expected value:
@@ -660,7 +660,7 @@ The approach presented in this post allows teams to **automatically and continuo
 ![Success](/assets/k8s-jenkins-example/conclusion.png){: .image-center .img-thumbnail}
 ***Figure:** The path to success.*
 
-All in all, I hope this post helps you and your team to easily build your CI/CD pipelines with Jenkins and Kubernetes.
+**All in all, I hope this post helps you and your team to easily build your CI/CD pipelines with Jenkins and Kubernetes.**
 
 Please remember that your comments, suggestions and contributions are more than welcome. 
 
