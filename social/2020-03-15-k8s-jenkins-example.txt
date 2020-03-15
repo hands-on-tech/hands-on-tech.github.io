@@ -1,0 +1,3 @@
+New blog post about building a flexible CI/CD solution with Kubernetes, Jenkins and Traefik. Comments and suggestions are welcome!
+#ci/cd #devops #kubernetes #docker #jenkins #traefik #helm
+https://hands-on-tech.github.io/2020/03/15/k8s-jenkins-example.html

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Flexible CI/CD with with Kubernetes, Helm, Traefik and Jenkins"
+title:  "Flexible CI/CD with Kubernetes, Helm, Traefik and Jenkins"
 subtitle: ""
 date:   2020-03-15 10:00:00 +0100
 author: david_campos
