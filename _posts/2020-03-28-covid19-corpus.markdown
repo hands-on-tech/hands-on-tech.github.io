@@ -12,7 +12,7 @@ math: true
 ---
 
 # TL;DR
-Created a **corpus of 17739** abstracts of **research articles** related with **COVID-19**, automatically **annotated** with 10 **biomedical entities** of interest, namely **Disorder**, **Species**, **Chemical or Drug**, **Gene or Protein**, Enzyme, Anatomy, Biological Process, Molecular Function, Cellular Component, Pathway and microRNA.
+Created a **corpus** of **research articles** related with **COVID-19**, automatically **annotated** with 10 **biomedical entities** of interest, namely **Disorder**, **Species**, **Chemical or Drug**, **Gene or Protein**, Enzyme, Anatomy, Biological Process, Molecular Function, Cellular Component, Pathway and microRNA.
 
 ![Annotations](/assets/covid19-corpus/annotations-example.png){: .image-center .img-thumbnail width="75%"}
 
@@ -25,25 +25,25 @@ Source code is available on [Github](https://github.com/davidcampos/covid19-corp
 
 # Statistics
 Overall corpus statistics:
-- Number of **abstracts**: **17739**
-- Number of entity **occurrences**: **627288**
-- Number of **unique** entities: **29420**
+- Number of **abstracts**: **17740**
+- Number of entity **occurrences**: **683349**
+- Number of **unique** entities: **29423**
 
 Number of annotations per entity type:
 
 | Entity | # Occurrences| # Unique |
 |--------|--------------|------------|
-| Disorder | 165477 | 4476 | 
-| Species | 120977 | 2170 |
-| Chemical or Drug | 65010 | 2766 |
-| Gene or Protein | 47132 | 15025 |
-| Enzyme | 7155 | 282 |
-| Anatomy | 96236 | 2369 |
-| Biological Process | 68233 | 1561 |
-| Molecular Function | 13850 | 383 |
-| Cellular Component | 37130 | 263 |
-| Pathway | 6062 | 97 |
-| microRNA | 26 | 28 |
+|  Disorder  |  183528  |  4477  |
+|  Species  |  128356  |  2170  |
+|  Chemical or Drug  |  70619  |  2768  |
+|  Gene and Protein  |  51114  |  15025  |
+|  Enzyme  |  7892  |  282  |
+|  Anatomy  |  106401  |  2369  |
+|  Biological Process  |  74286  |  1561  |
+|  Molecular Function  |  15089  |  383  |
+|  Cellular Component  |  39451  |  263  |
+|  Pathway  |  6587  |  97  |
+|  microRNA  |  26  |  28  |
 {:.table-striped .table-bordered}
 
 # Structure
@@ -241,6 +241,8 @@ Possible next steps to improve the COVID-19 corpus:
 - Annotate PMC and Elsevier full text articles;
 - Collect co-occurrences to understand which entities might be related more often;
 - Index articles and annotations and provide access to search tool.
+
+Please follow the progress on [Github](https://github.com/davidcampos/covid19-corpus).
 
 # Conclusion
 I hope this annotated corpus helps to **understand the COVID-19 disease better**, towards **finding better medication** and to **reduce the impact** on society as much as possible.
