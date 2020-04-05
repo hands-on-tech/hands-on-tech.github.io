@@ -18,7 +18,7 @@ Created a **corpus** of **research articles** related with **COVID-19**, automat
 
 The corpus is **freely available** and can be used to further research topics related with COVID-19, contributing to **find insights** towards a **better understanding of the disease**, in order to **find effective drugs** and reduce the pandemic impact.
 
-Source code is available on [Github](https://github.com/davidcampos/covid19-corpus).
+Please follow the progress on [**Github**](https://github.com/davidcampos/covid19-corpus), which already provides the **[CORD-19](https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge) corpus of full-text articles with more then 31 million biomedical annotations.**
 
 # Download
 [Download the latest version of the COVID-19 annotated corpus](https://github.com/davidcampos/covid19-corpus/blob/master/corpus).
@@ -241,8 +241,6 @@ Possible next steps to improve the COVID-19 corpus:
 - Annotate PMC and Elsevier full text articles;
 - Collect co-occurrences to understand which entities might be related more often;
 - Index articles and annotations and provide access to search tool.
-
-Please follow the progress on [Github](https://github.com/davidcampos/covid19-corpus).
 
 # Conclusion
 I hope this annotated corpus helps to **understand the COVID-19 disease better**, towards **finding better medication** and to **reduce the impact** on society as much as possible.
