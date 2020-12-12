@@ -1,0 +1,2 @@
+#CORD19 corpus with ~33 thousand research articles augmented with ~31 million annotations of 11 biomedical entities is available at https://github.com/davidcampos/covid19-corpus.
+#covid19 #datascience #biotech #machinelearning #ai
