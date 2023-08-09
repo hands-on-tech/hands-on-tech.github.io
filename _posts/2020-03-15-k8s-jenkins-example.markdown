@@ -34,7 +34,7 @@ To fulfill the mentioned steps and validate the presented CI/CD solution, the ar
 - **Application stating**: example application deployment for development and testing purposes;
 - **Application production**: example application deployment to be used in production.
 
-![Components](/assets/k8s-jenkins-example/components.svg){: .image-center .img-thumbnail}
+![Components](/blog/assets/k8s-jenkins-example/components.svg){: .image-center .img-thumbnail}
 ***Figure:** Components.*
 
 Behind the curtains and as supporting tools, the following technologies are also used:
@@ -46,7 +46,7 @@ Regarding the CI/CD solution, this post will focus in two main interaction workf
 1. **Build and deploy application**: checkout latest source code version to build application and deploy it on Kubernetes cluster;
 2. **Access application**: use proxy for standardized access to deployed application on specific hostname.
 
-![Sequence](/assets/k8s-jenkins-example/sequence.svg){: .image-center .img-thumbnail}
+![Sequence](/blog/assets/k8s-jenkins-example/sequence.svg){: .image-center .img-thumbnail}
 ***Figure:** Sequence diagram.*
 
 # Kubernetes
@@ -66,7 +66,7 @@ To understand how applications can be deployed, it is fundamental to introduce s
 - **Ingress**: to manage how external access to services is provided;
 - **Persistent Volume**: a piece of storage used to persist data beyond the lifetime of a Pod.
 
-![Kubernetes Concepts](/assets/k8s-jenkins-example/kubernetes-deployment.svg){: .image-center .img-thumbnail width="80%"}
+![Kubernetes Concepts](/blog/assets/k8s-jenkins-example/kubernetes-deployment.svg){: .image-center .img-thumbnail width="80%"}
 ***Figure:** Kubernetes deployment concepts.*
 
 ## Architecture
@@ -84,7 +84,7 @@ Before jumping into installing and configuring Kubernetes, it is important to un
 - **UI**: user interface application to manage cluster configurations and applications. Kubernetes Dashboard will be used in this post;
 - **CLI**: command line interfaces to manage cluster configurations and applications. Kubectl will be used in this post;
 
-![Kubernetes Architecture](/assets/k8s-jenkins-example/kubernetes-architecture.png){: .image-center .img-thumbnail width="80%"}
+![Kubernetes Architecture](/blog/assets/k8s-jenkins-example/kubernetes-architecture.png){: .image-center .img-thumbnail width="80%"}
 ***Figure:** Kubernetes architecture. Source <https://blog.sensu.io/how-kubernetes-works>.*
 
 To learn more about Kubernetes architecture and terminology, several pages already provide an in-depth description, such as the 
@@ -96,7 +96,7 @@ and the terminology presentation by [Daniel Sanche](https://medium.com/google-cl
 There are several options available that make the process of installing Kubernetes more straightforward, since installing and configuring every single component can be an time consuming task. [Ramit Surana](https://github.com/ramitsurana/awesome-kubernetes#installers) provides an extensive list of such installers. Special emphasis to [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm), [kops](https://github.com/kubernetes/kops), [minikube](https://github.com/kubernetes/minikube) and [k3s](https://k3s.io), which are continuously supported and updated by the open source community.
 Since I am using MacOS and want to run Kubernetes locally in a single node, I decided to take advantage of [Docker Desktop](https://www.docker.com/products/docker-desktop), which already provides Docker and Kubernetes installation in a single tool. After installing, one can check the system tray menu to make sure that Kubernetes is running as expected:
 
-![Docker Desktop](/assets/k8s-jenkins-example/docker-desktop.png){: .image-center .img-thumbnail  width="24%"}
+![Docker Desktop](/blog/assets/k8s-jenkins-example/docker-desktop.png){: .image-center .img-thumbnail  width="24%"}
 ***Figure:** Docker Desktop.*
 
 ## Kubectl
@@ -138,7 +138,7 @@ version.BuildInfo{Version:"v3.1.1", GitCommit:"afe70585407b420d0097d07b21c47dc51
 
 [Traefik](https://traefik.io) is a widely used proxy and load balancer for HTTP and TCP applications, natively compliant and optimized for Cloud-based solutions. In summary, Traefik analyzes the infrastructure and services configuration and automatically discovers the right configuration for each one, enabling automatic applications deployment and routing. On top of this, Traefik also supports collecting detailed metrics, logs and traceability.
 
-![Traefik Architecture](/assets/k8s-jenkins-example/traefik-architecture.svg){: .image-center .img-thumbnail  width="80%"}
+![Traefik Architecture](/blog/assets/k8s-jenkins-example/traefik-architecture.svg){: .image-center .img-thumbnail  width="80%"}
 ***Figure:** Traefik architecture. Source <https://docs.traefik.io>.*
 
 [Traefik offers a stable and official Helm chart](https://github.com/helm/charts/tree/master/stable/traefik) that can be used for straightforward installation and configuration on Kubernetes.
@@ -180,7 +180,7 @@ kubectl get pods
 
 When the deployment ready status is "1/1" (1 ready out of 1 required), visit <http://traefik.localhost/> to access the Traefik dashboard and login with previously defined username and password. In the dashboard one can check the entry points (frontends) available to access the deployed services (backends).
 
-![Traefik Dashboard](/assets/k8s-jenkins-example/traefik-dashboard.png){: .image-center .img-thumbnail}
+![Traefik Dashboard](/blog/assets/k8s-jenkins-example/traefik-dashboard.png){: .image-center .img-thumbnail}
 ***Figure:** Traefik dashboard.*
 
 # Kubernetes Dashboard
@@ -209,17 +209,17 @@ helm install stable/kubernetes-dashboard --name dashboard --values dashboard-val
 
 In order to login, the helm chart already creates a service account with the appropriate permissions. The token to login with such service account is available in kubernetes secrets. To get the list of available secrets just run `kubectl get secrets`:
 
-![Kubernetes Secrets](/assets/k8s-jenkins-example/kubernetes-secrets.png){: .image-center .img-thumbnail width="65%"}
+![Kubernetes Secrets](/blog/assets/k8s-jenkins-example/kubernetes-secrets.png){: .image-center .img-thumbnail width="65%"}
 ***Figure:** Kubernetes secrets.*
 
 To get the secret value, lets describe the secret that contains the dashboard token with `kubectl describe secrets dashboard-kubernetes-dashboard-token-sk68z`:
 
-![Kubernetes Secret](/assets/k8s-jenkins-example/kubernetes-secret.png){: .image-center .img-thumbnail width="80%"}
+![Kubernetes Secret](/blog/assets/k8s-jenkins-example/kubernetes-secret.png){: .image-center .img-thumbnail width="80%"}
 ***Figure:** Kubernetes secret with token.*
 
 Finally, go to <http://dashboard.localhost>, and use the previous token value to login in the Kubernetes Dashboard:
 
-![Kubernetes Dashboard](/assets/k8s-jenkins-example/kubernetes-dashboard.png){: .image-center .img-thumbnail}
+![Kubernetes Dashboard](/blog/assets/k8s-jenkins-example/kubernetes-dashboard.png){: .image-center .img-thumbnail}
 ***Figure:** Kubernetes Dashboard.*
 
 
@@ -260,13 +260,13 @@ helm install stable/jenkins --name jenkins --values jenkins-values.yml
 
 When required pods are running, go to <http://jenkins.localhost> to access Jenkins and login with the previously provided credentials:
 
-![Jenkins Dashboard](/assets/k8s-jenkins-example/jenkins-dashboard.png){: .image-center .img-thumbnail}
+![Jenkins Dashboard](/blog/assets/k8s-jenkins-example/jenkins-dashboard.png){: .image-center .img-thumbnail}
 ***Figure:** Jenkins Dashboard.*
 
 # Application
 Since all required tools are installed and running successfully, we are now ready to create the sample application to be built and deployed automatically. Such application will be developed in [Kotlin](https://kotlinlang.org) using the [Spring Boot](https://spring.io/projects/spring-boot) framework. [Spring Initializr](https://start.spring.io) is used to create the initial application, using the following configurations:
 
-![Spring Initializr](/assets/k8s-jenkins-example/spring-initializr.png){: .image-center .img-thumbnail width="85%"}
+![Spring Initializr](/blog/assets/k8s-jenkins-example/spring-initializr.png){: .image-center .img-thumbnail width="85%"}
 ***Figure:** Spring Initializr configuration.*
 
 The **core functionality** will be in the **`GreetingController`**, which simply provides a **GET REST  endpoint to provide a greeting based on input argument**, provided environment variable and overall counter to differentiate between different calls.
@@ -523,7 +523,7 @@ spec:
 
 Before jumping into the pipeline, we need to define the credentials that will be used to access GitHub source code and Docker Hub images. Such credentials can be stored on Jenkins credentials, which later can be referenced from the pipeline using respective identifiers:
 
-![Jenkins Credentials](/assets/k8s-jenkins-example/jenkins-credentials.png){: .image-center .img-thumbnail width="70%"}
+![Jenkins Credentials](/blog/assets/k8s-jenkins-example/jenkins-credentials.png){: .image-center .img-thumbnail width="70%"}
 ***Figure:** Jenkins credentials.*
 
 For the pipeline I decided to use the [declarative syntax](https://jenkins.io/doc/book/pipeline/syntax/) instead of scripted, which is a better fit for simple pipelines and easier to read and understand. However, the more restrictive syntax can be a limitation if we want to perform more advanced tasks. For such cases, [a script block can be defined in a declarative pipeline](https://jenkins.io/doc/book/pipeline/syntax/#script).
@@ -601,14 +601,14 @@ pipeline {
 
 To finalize, let's create the Jenkins job to run the pipeline using the sample application source code. To achieve that, go to Jenkins and create a new **Multibranch Pipeline** job with the following configurations:
 
-![Jenkins Job](/assets/k8s-jenkins-example/jenkins-job.png){: .image-center .img-thumbnail}
+![Jenkins Job](/blog/assets/k8s-jenkins-example/jenkins-job.png){: .image-center .img-thumbnail}
 ***Figure:** Jenkins job configuration.*
 
 After saving the Jenkins job, you should be able to see it in the list, explore its several branches, and check the pipelines executed for each one:
 
-![Jenkins Jobs](/assets/k8s-jenkins-example/jenkins-jobs.png){: .image-center .img-thumbnail width="80%"}
-![Jenkins Branches](/assets/k8s-jenkins-example/jenkins-branches.png){: .image-center .img-thumbnail width="80%"}
-![Jenkins Master](/assets/k8s-jenkins-example/jenkins-master.png){: .image-center .img-thumbnail width="80%"}
+![Jenkins Jobs](/blog/assets/k8s-jenkins-example/jenkins-jobs.png){: .image-center .img-thumbnail width="80%"}
+![Jenkins Branches](/blog/assets/k8s-jenkins-example/jenkins-branches.png){: .image-center .img-thumbnail width="80%"}
+![Jenkins Master](/blog/assets/k8s-jenkins-example/jenkins-master.png){: .image-center .img-thumbnail width="80%"}
 ***Figure:** Jenkins list of jobs, branches and pipeline runs for master branch.*
 
 # Validate
@@ -642,13 +642,13 @@ Now that all pieces are running together and we checked the core functionality, 
 {"id":1,"content":"Hello, World!","env":"default_value"}
 ```
 11. **Yes, everything is working automagically!**
-![GIF](/assets/k8s-jenkins-example/fun.gif){: .image-center}
+![GIF](/blog/assets/k8s-jenkins-example/fun.gif){: .image-center}
 
 # Conclusion
 
 The approach presented in this post allows teams to **automatically and continuously integrate, deploy, validate and share the performed work**, **fostering** enhanced product **quality**, developer **independency** and team **collaboration**. It is definitely nothing completely new, but the path to achieve it was not so straightforward as initially expected, which required a lot of try and error. Just out of curiosity, check below the Jenkins project status with the required runs until it was executed successfully:
 
-![Success](/assets/k8s-jenkins-example/conclusion.png){: .image-center .img-thumbnail}
+![Success](/blog/assets/k8s-jenkins-example/conclusion.png){: .image-center .img-thumbnail}
 ***Figure:** The path to success.*
 
 **All in all, I hope this post helps you and your team to easily build your CI/CD pipelines with Jenkins and Kubernetes.**

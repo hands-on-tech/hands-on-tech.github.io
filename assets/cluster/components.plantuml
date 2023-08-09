@@ -1,0 +1,71 @@
+@startuml
+rectangle Nodes as nodes {
+    rectangle Kubernetes as k8s {
+        component h1
+        component "MetalLB" as metallb
+        component "Traefik" as traefik
+        component "Grafana" as grafana
+        component "Prometheus" as prometheus
+        component h2
+
+        [h1] -r-> [metallb]
+        [metallb] -r-> [traefik]
+        [traefik] -r-> [grafana]
+        [grafana] -[hidden]r-> [prometheus]
+        [prometheus] -r->[h2]
+    }
+    hide h1
+    hide h2
+
+    node "Minix\n(master)" as minix #ADD1B2
+    node "RPi 81\n(master)" as rpi81 #ADD1B2
+    node "RPi 82\n(worker)" as rpi82
+    node "RPi 83\n(worker)" as rpi83
+    node "RPi 84\n(worker)" as rpi84
+}
+
+k8s -[hidden]d-> minix
+k8s -[hidden]d-> rpi81
+k8s -[hidden]d-> rpi82
+k8s -[hidden]d-> rpi83
+k8s -[hidden]d-> rpi84
+
+actor "Developer" as developer
+rectangle Laptop as laptop {
+    component "Ansible" as ansible
+    component "Kubectl" as kubectl
+    component "Lens" as lens
+}
+developer -d-> laptop
+
+rectangle AWS as aws {
+    database "RDS\nMySQL" as mysql
+}
+minix -d-> mysql
+rpi81 -d-> mysql
+
+rectangle NAS as nas {
+    folder "config" as config
+    rectangle "RAID 5" as raid {
+        component "HDD1" as hdd1
+        component "HDD2" as hdd2
+        component "HDD3" as hdd3
+        component "HDD4" as hdd4
+    }
+
+    config -[hidden]d-> hdd1
+    config -[hidden]d-> hdd2
+    config -[hidden]d-> hdd3
+    config -[hidden]d-> hdd4
+}
+k8s ---> config
+
+ansible -d-> nodes
+lens -d-> k8s
+kubectl -d-> k8s
+
+component "UptimeRobot" as uptime
+uptime -r-> k8s
+uptime -[hidden]-> aws
+
+@enduml

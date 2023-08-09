@@ -14,7 +14,7 @@ math: true
 # TL;DR
 Created a **corpus** of **research articles** related with **COVID-19**, automatically **annotated** with 10 **biomedical entities** of interest, namely **Disorder**, **Species**, **Chemical or Drug**, **Gene or Protein**, Enzyme, Anatomy, Biological Process, Molecular Function, Cellular Component, Pathway and microRNA.
 
-![Annotations](/assets/covid19-corpus/annotations-example.png){: .image-center .img-thumbnail width="75%"}
+![Annotations](/blog/assets/covid19-corpus/annotations-example.png){: .image-center .img-thumbnail width="75%"}
 
 The corpus is **freely available** and can be used to further research topics related with COVID-19, contributing to **find insights** towards a **better understanding of the disease**, in order to **find effective drugs** and reduce the pandemic impact.
 
@@ -111,12 +111,12 @@ ln -s corpus/pubmed/brat tools/brat-1.3/data/covid19-corpus
 ##### Visualize corpus
 Go to [http://localhost:8001/index.xhtml#/covid19-corpus/](http://localhost:8001/index.xhtml#/covid19-corpus/) and wait for the articles to load:
 
-![Annotations](/assets/covid19-corpus/corpus.png){: .image-center .img-thumbnail width="40%"}
+![Annotations](/blog/assets/covid19-corpus/corpus.png){: .image-center .img-thumbnail width="40%"}
 ***Figure:** List of articles.*
 
 Double click in a document to visualize it:
 
-![Annotations](/assets/covid19-corpus/article.png){: .image-center .img-thumbnail width="90%"}
+![Annotations](/blog/assets/covid19-corpus/article.png){: .image-center .img-thumbnail width="90%"}
 ***Figure:** Article with annotations visualization.*
 
 # Example
@@ -247,6 +247,6 @@ I hope this annotated corpus helps to **understand the COVID-19 disease better**
 Please remember that your comments, suggestions and contributions are more than welcome. 
 
 **Let's kick the virus ass! :muscle:** 
-![GIF](/assets/covid19-corpus/kick.gif){: .image-center}
+![GIF](/blog/assets/covid19-corpus/kick.gif){: .image-center}
 
 

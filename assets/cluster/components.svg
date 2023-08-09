@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="891px" preserveAspectRatio="none" style="width:1130px;height:891px;background:#FFFFFF;" version="1.1" viewBox="0 0 1130 891" width="1130px" zoomAndPan="magnify"><defs><filter height="300%" id="f1nk9em09geqgm" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[10d7f3edf34b2ed408e1a0d4630f5399]
+cluster nodes--><rect fill="#FFFFFF" filter="url(#f1nk9em09geqgm)" height="295" style="stroke:#000000;stroke-width:1.5;" width="842" x="161" y="262.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="45" x="559.5" y="278.0352">Nodes</text><!--MD5=[81d16cdabbe89c1a39395d00a8354929]
+cluster k8s--><rect fill="#FFFFFF" filter="url(#f1nk9em09geqgm)" height="113" style="stroke:#000000;stroke-width:1.5;" width="754" x="201" y="321.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="81" x="537.5" y="337.0352">Kubernetes</text><!--MD5=[2b498b3ac55e7b096cf2946b851e4aaf]
+cluster laptop--><rect fill="#FFFFFF" filter="url(#f1nk9em09geqgm)" height="113" style="stroke:#000000;stroke-width:1.5;" width="391" x="130" y="109.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="49" x="301" y="125.0352">Laptop</text><!--MD5=[c444070a69c905f8781a2e7d91c12e8c]
+cluster aws--><rect fill="#FFFFFF" filter="url(#f1nk9em09geqgm)" height="129" style="stroke:#000000;stroke-width:1.5;" width="133" x="158" y="597.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="31" x="209" y="613.0352">AWS</text><!--MD5=[7e2ef9296c38e7ba347f635119cc89dd]
+cluster nas--><rect fill="#FFFFFF" filter="url(#f1nk9em09geqgm)" height="270" style="stroke:#000000;stroke-width:1.5;" width="502" x="616" y="609.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="29" x="852.5" y="625.0352">NAS</text><!--MD5=[0873c55255e5c0490fb3da668f866dae]
+cluster raid--><rect fill="#FFFFFF" filter="url(#f1nk9em09geqgm)" height="97" style="stroke:#000000;stroke-width:1.5;" width="454" x="640" y="758.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="50" x="842" y="774.0352">RAID 5</text><!--MD5=[4954c40523b2b1aaa1f9ae8b5b84c3a6]
+entity minix--><polygon fill="#ADD1B2" filter="url(#f1nk9em09geqgm)" points="185.5,480.5,195.5,470.5,282.5,470.5,282.5,523.4766,272.5,533.4766,185.5,533.4766,185.5,480.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="272.5" x2="282.5" y1="480.5" y2="470.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="185.5" x2="272.5" y1="480.5" y2="480.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="272.5" x2="272.5" y1="480.5" y2="533.4766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="38" x="200.5" y="504.0352">Minix</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="200.5" y="520.5234">(master)</text><!--MD5=[d1b8e9379c52ad21d16fd9f4ed619215]
+entity rpi81--><polygon fill="#ADD1B2" filter="url(#f1nk9em09geqgm)" points="317.5,480.5,327.5,470.5,414.5,470.5,414.5,523.4766,404.5,533.4766,317.5,533.4766,317.5,480.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="404.5" x2="414.5" y1="480.5" y2="470.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="317.5" x2="404.5" y1="480.5" y2="480.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="404.5" x2="404.5" y1="480.5" y2="533.4766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43" x="332.5" y="504.0352">RPi 81</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="332.5" y="520.5234">(master)</text><!--MD5=[7293358d41c50bfb04637a3a41739575]
+entity rpi82--><polygon fill="#FEFECE" filter="url(#f1nk9em09geqgm)" points="450,480.5,460,470.5,548,470.5,548,523.4766,538,533.4766,450,533.4766,450,480.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="538" x2="548" y1="480.5" y2="470.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="450" x2="538" y1="480.5" y2="480.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="538" x2="538" y1="480.5" y2="533.4766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43" x="465" y="504.0352">RPi 82</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="465" y="520.5234">(worker)</text><!--MD5=[bb81341b4cb8cda19d39a6240de7f4e4]
+entity rpi83--><polygon fill="#FEFECE" filter="url(#f1nk9em09geqgm)" points="583,480.5,593,470.5,681,470.5,681,523.4766,671,533.4766,583,533.4766,583,480.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="671" x2="681" y1="480.5" y2="470.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="583" x2="671" y1="480.5" y2="480.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="671" x2="671" y1="480.5" y2="533.4766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43" x="598" y="504.0352">RPi 83</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="598" y="520.5234">(worker)</text><!--MD5=[db3b58898b14390d0e23b5229e901fec]
+entity rpi84--><polygon fill="#FEFECE" filter="url(#f1nk9em09geqgm)" points="716,480.5,726,470.5,814,470.5,814,523.4766,804,533.4766,716,533.4766,716,480.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="804" x2="814" y1="480.5" y2="470.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="716" x2="804" y1="480.5" y2="480.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="804" x2="804" y1="480.5" y2="533.4766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43" x="731" y="504.0352">RPi 84</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="731" y="520.5234">(worker)</text><!--MD5=[bae29da1e3324d21f5fbf8ae94e107af]
+entity h1--><!--MD5=[8d1eb0a7d1e309e951ee4562bd696d4f]
+entity metallb--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="92" x="337" y="364.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="409" y="369.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="407" y="371.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="407" y="375.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="52" x="352" y="398.0352">MetalLB</text><!--MD5=[ea19deeb053b6d935524ddb2281a69ee]
+entity traefik--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="88" x="464" y="364.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="532" y="369.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="530" y="371.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="530" y="375.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48" x="479" y="398.0352">Traefik</text><!--MD5=[97029dda41c7f1332efacff3a5502fd8]
+entity grafana--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="94" x="587" y="364.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="661" y="369.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="659" y="371.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="659" y="375.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="602" y="398.0352">Grafana</text><!--MD5=[76c72a0d0666ffe20c687699125b4b7c]
+entity prometheus--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="122" x="716" y="364.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="818" y="369.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="816" y="371.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="816" y="375.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="731" y="398.0352">Prometheus</text><!--MD5=[cdaabcb77b598f36b9a2ca5313e9b545]
+entity h2--><!--MD5=[25d241169ab275e14c63aac6b90ce87c]
+entity ansible--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="91" x="405.5" y="152.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="476.5" y="157.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="474.5" y="159.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="474.5" y="163.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="51" x="420.5" y="186.0352">Ansible</text><!--MD5=[dfb8dbbb4c0ea643f45bcc30639117f0]
+entity kubectl--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="91" x="279.5" y="152.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="350.5" y="157.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="348.5" y="159.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="348.5" y="163.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="51" x="294.5" y="186.0352">Kubectl</text><!--MD5=[33f806f8f9a7844d6c7b8bdcb5f6e4ff]
+entity lens--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="71" x="173.5" y="152.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="224.5" y="157.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="222.5" y="159.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="222.5" y="163.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="188.5" y="186.0352">Lens</text><!--MD5=[95056b5cbad1279cc73d9cc5c17a1af7]
+entity mysql--><path d="M201.5,650.5 C201.5,640.5 234,640.5 234,640.5 C234,640.5 266.5,640.5 266.5,650.5 L266.5,692.4766 C266.5,702.4766 234,702.4766 234,702.4766 C234,702.4766 201.5,702.4766 201.5,692.4766 L201.5,650.5 " fill="#FEFECE" filter="url(#f1nk9em09geqgm)" style="stroke:#000000;stroke-width:1.5;"/><path d="M201.5,650.5 C201.5,660.5 234,660.5 234,660.5 C234,660.5 266.5,660.5 266.5,650.5 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="27" x="211.5" y="678.0352">RDS</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45" x="211.5" y="694.5234">MySQL</text><!--MD5=[caf660ac2a54b55a5c31b5515889e628]
+entity config--><polygon fill="#FEFECE" filter="url(#f1nk9em09geqgm)" points="830.5,644.5,876.5,644.5,883.5,665.5,903.5,665.5,903.5,698.9883,830.5,698.9883,830.5,644.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="830.5" x2="883.5" y1="665.5" y2="665.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43" x="840.5" y="686.0352">config</text><!--MD5=[b28a3d51d01b4db1eb973662ea7892e4]
+entity hdd1--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="79" x="998.5" y="793.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="1057.5" y="798.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1055.5" y="800.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1055.5" y="804.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="1013.5" y="827.0352">HDD1</text><!--MD5=[3d8e9bdf32062a46aa794bfa25cdf3fc]
+entity hdd2--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="79" x="884.5" y="793.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="943.5" y="798.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="941.5" y="800.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="941.5" y="804.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="899.5" y="827.0352">HDD2</text><!--MD5=[e960eafccaaf1c44549e383b195041ae]
+entity hdd3--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="79" x="770.5" y="793.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="829.5" y="798.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="827.5" y="800.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="827.5" y="804.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="785.5" y="827.0352">HDD3</text><!--MD5=[8d49c0d8070f72aecdf3fd8eeefdc548]
+entity hdd4--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="79" x="656.5" y="793.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="715.5" y="798.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="713.5" y="800.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="713.5" y="804.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="671.5" y="827.0352">HDD4</text><!--MD5=[23e4898078453906b079a6bea7d1245c]
+entity developer--><ellipse cx="138" cy="14" fill="#FEFECE" filter="url(#f1nk9em09geqgm)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M138,22 L138,49 M125,30 L151,30 M138,49 L125,64 M138,49 L151,64 " fill="none" filter="url(#f1nk9em09geqgm)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="69" x="103.5" y="83.0352">Developer</text><!--MD5=[8cfdc5432ea5c2cf1b137956ccf4cfc3]
+entity uptime--><rect fill="#FEFECE" filter="url(#f1nk9em09geqgm)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="130" x="7" y="364.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="117" y="369.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="115" y="371.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="115" y="375.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="90" x="22" y="398.0352">UptimeRobot</text><!--MD5=[70ca6c4fe0209206ee9b7e79eb71bf9b]
+link h1 to metallb--><!--MD5=[99e53200ad910ce8e5b438eeab03d033]
+link metallb to traefik--><path d="M429.39,387.5 C439.15,387.5 448.91,387.5 458.67,387.5 " fill="none" id="metallb-to-traefik" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="463.78,387.5,454.78,383.5,458.78,387.5,454.78,391.5,463.78,387.5" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[d70a59b370bffd0da60477a704869bdb]
+link traefik to grafana--><path d="M552.3,387.5 C562.08,387.5 571.86,387.5 581.65,387.5 " fill="none" id="traefik-to-grafana" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="586.77,387.5,577.77,383.5,581.77,387.5,577.77,391.5,586.77,387.5" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[28f6f5fcb7b9f8330c57ea7d871da9ec]
+link grafana to prometheus--><!--MD5=[b59a2285cc805ca62354c78831370972]
+link prometheus to h2--><!--MD5=[0bbadc086280141b2c4f2e489dce7028]
+link k8s to minix--><!--MD5=[448d2fd2f6d731571e12a0efd4b58ae3]
+link k8s to rpi81--><!--MD5=[ef15415c2dd6bed204843abdf7847450]
+link k8s to rpi82--><!--MD5=[a03443a80ba10c9e51766ae7718a3f81]
+link k8s to rpi83--><!--MD5=[2779392b7755460172b06d4d33c379cf]
+link k8s to rpi84--><!--MD5=[aae5e77939089663135a689f77476779]
+link developer to laptop--><path d="M138,85.6 C138,90.1725 138,94.9413 138,99.7917 C138,102.2169 138,104.6625 138,107.1142 C138,107.7271 138,108.3404 138,108.9539 C138,109.1073 138,109.2606 138,109.414 " fill="none" id="developer-to-laptop" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="138,109.414,142,100.414,138,104.414,134,100.414,138,109.414" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[1d17fff63d76ec326c27defa4f535122]
+link minix to mysql--><path d="M234,533.72 C234,562.38 234,605.11 234,635.17 " fill="none" id="minix-to-mysql" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="234,640.25,238,631.25,234,635.25,230,631.25,234,640.25" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[fa71db1e379e3377c5cdca2c8c5cd9e8]
+link rpi81 to mysql--><path d="M341.79,533.72 C318.92,562.74 284.69,606.17 260.97,636.28 " fill="none" id="rpi81-to-mysql" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="257.83,640.25,266.5534,635.678,260.9342,636.3304,260.2819,630.7112,257.83,640.25" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[00f2ab256d449ac3781007b3d64fc23d]
+link config to hdd1--><!--MD5=[e9bd02098db958a65ef0db57da0328e7]
+link config to hdd2--><!--MD5=[941e4c1654dfa5dee4ae0136030a8e57]
+link config to hdd3--><!--MD5=[14eef08660e64d9b24d5004ba3b8f546]
+link config to hdd4--><!--MD5=[2c75daa46a55832cc637ac2a51ee548e]
+link k8s to config--><path d="M215.9124,434.6437 C216.0033,434.8422 216.0954,435.0402 216.1886,435.2376 C216.3749,435.6323 216.5658,436.0246 216.7614,436.4141 C217.1525,437.1933 217.5622,437.9615 217.9914,438.7169 C218.8497,440.2278 219.7858,441.6873 220.8065,443.0796 C222.8478,445.8642 225.2275,448.38 228,450.5 C282.48,492.17 794.66,423.91 845,470.5 C891.16,513.23 883.27,594.79 874.53,639.42 " fill="none" id="k8s-to-config" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="873.51,644.41,879.2064,636.3756,874.4961,639.5082,871.3635,634.7979,873.51,644.41" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[f602bc01929ce969c5722c7d4d6ff3b5]
+link ansible to nodes--><path d="M496.82,177.02 C606.27,179.18 878.86,190.22 947,246.5 C950.12,249.0769 953.0378,251.8666 955.7664,254.8332 C957.1307,256.3166 958.4477,257.8441 959.7191,259.4114 C960.3548,260.195 960.979,260.9886 961.5921,261.7915 C961.7454,261.9923 961.8979,262.1936 962.0498,262.3955 " fill="none" id="ansible-to-nodes" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="962.0498,262.3955,959.8363,252.7986,959.0442,258.3997,953.4431,257.6076,962.0498,262.3955" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[ed4a41aede79af7f875722ebae28d5a5]
+link lens to k8s--><path d="M209,198.58 C209,225.115 209,271.0525 209,310.865 C209,313.3533 209,315.8176 209,318.2518 C209,318.8604 209,319.467 209,320.0717 C209,320.3741 209,320.6759 209,320.9773 " fill="none" id="lens-to-k8s" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="209,320.9773,213,311.9773,209,315.9773,205,311.9773,209,320.9773" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[b0d2107bf2cea2bd0bf552b3b0d62fa7]
+link kubectl to k8s--><path d="M307.98,198.55 C296.42,212.04 280,228.56 262,238.5 C248.41,246 238.44,235.01 228,246.5 C217.61,257.94 211.1831,272.2281 207.398,287.2697 C205.5054,294.7905 204.2732,302.4996 203.5363,310.1353 C203.3521,312.0442 203.1989,313.9485 203.074,315.8442 C203.0115,316.792 202.9562,317.7376 202.9076,318.6806 C202.8833,319.1521 202.8607,319.6229 202.8397,320.093 C202.8293,320.328 202.8192,320.5629 202.8095,320.7975 " fill="none" id="kubectl-to-k8s" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="202.8095,320.7975,207.1761,311.9695,203.015,315.8017,199.1828,311.6407,202.8095,320.7975" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[496de2dca5766831a717778c24871789]
+link uptime to k8s--><path d="M137.02,387.5 C148.925,387.5 160.8275,387.5 172.73,387.5 C178.6813,387.5 184.6325,387.5 190.5841,387.5 C193.5598,387.5 196.5357,387.5 199.5117,387.5 C199.8837,387.5 200.2557,387.5 200.6277,387.5 C200.7207,387.5 200.8137,387.5 200.9067,387.5 " fill="none" id="uptime-to-k8s" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="200.9067,387.5,191.9067,383.5,195.9067,387.5,191.9067,391.5,200.9067,387.5" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[52f87e6e22cdf4c83fb9cde040d4c0e6]
+link uptime to aws--><!--MD5=[b68f79e0973dcd58fb4a33ef713af281]
+@startuml
+rectangle Nodes as nodes {
+    rectangle Kubernetes as k8s {
+        component h1
+        component "MetalLB" as metallb
+        component "Traefik" as traefik
+        component "Grafana" as grafana
+        component "Prometheus" as prometheus
+        component h2
+
+        [h1] -r-> [metallb]
+        [metallb] -r-> [traefik]
+        [traefik] -r-> [grafana]
+        [grafana] -[hidden]r-> [prometheus]
+        [prometheus] -r->[h2]
+    }
+    hide h1
+    hide h2
+
+    node "Minix\n(master)" as minix #ADD1B2
+    node "RPi 81\n(master)" as rpi81 #ADD1B2
+    node "RPi 82\n(worker)" as rpi82
+    node "RPi 83\n(worker)" as rpi83
+    node "RPi 84\n(worker)" as rpi84
+}
+
+k8s -[hidden]d-> minix
+k8s -[hidden]d-> rpi81
+k8s -[hidden]d-> rpi82
+k8s -[hidden]d-> rpi83
+k8s -[hidden]d-> rpi84
+
+actor "Developer" as developer
+rectangle Laptop as laptop {
+    component "Ansible" as ansible
+    component "Kubectl" as kubectl
+    component "Lens" as lens
+}
+developer -d-> laptop
+
+rectangle AWS as aws {
+    database "RDS\nMySQL" as mysql
+}
+minix -d-> mysql
+rpi81 -d-> mysql
+
+rectangle NAS as nas {
+    folder "config" as config
+    rectangle "RAID 5" as raid {
+        component "HDD1" as hdd1
+        component "HDD2" as hdd2
+        component "HDD3" as hdd3
+        component "HDD4" as hdd4
+    }
+
+    config -[hidden]d-> hdd1
+    config -[hidden]d-> hdd2
+    config -[hidden]d-> hdd3
+    config -[hidden]d-> hdd4
+}
+k8s - - -> config
+
+ansible -d-> nodes
+lens -d-> k8s
+kubectl -d-> k8s
+
+component "UptimeRobot" as uptime
+uptime -r-> k8s
+uptime -[hidden]-> aws
+
+@enduml
+
+PlantUML version 1.2022.0(Tue Jan 11 16:16:42 WET 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: PT
+--></g></svg>

@@ -1,0 +1,243 @@
+---
+layout: post
+title:  "Building a cluster of Raspberry Pis with Kubernetes, Ansible and Helm"
+subtitle: ""
+date:   2021-08-10 10:00:00 +0100
+author: david_campos
+tags: rpi cluster kubernetes k8s ansible helm
+comments: true
+read_time: true
+background: '/assets/cluster/background.jpg'
+math: true
+---
+
+# TL;DR
+Building a cluster of Raspberry Pis from scratch, using Kubernetes for containers orchestration, Ansible for nodes management, and Helm for services installation.
+
+# Goal
+With cloud services becoming cheaper and accessible, having a cluster at home is more and more a discussion topic.
+Besides the "because I can" reason, my goal of creating such a cluster at home is multi-purpose:
+- Local **smart-home automation** with [Home Assistant](https://www.home-assistant.io), [Zigbee2MQTT](https://www.zigbee2mqtt.io) and [ESPHome](https://esphome.io);
+- Local **smart surveillance** with [Frigate](https://github.com/blakeblackshear/frigate) and [Google Coral Accelerator](https://coral.ai/products/accelerator);
+- Local **utility services**, for instance for Password Management (e.g., [Bitwarden](https://bitwarden.com)) and Ad Blocking (e.g., [PiHole](https://pi-hole.net) or [AdGuard](https://adguard.com));
+- Freedom to **experiment** with whatever I require taking advantage of the Kubernetes ecosystem flexibility.
+
+To fulfill the previously mentioned use cases, the architecture with the following components is proposed:
+- **Raspberry PIs** to run ARM-based applications;
+- **x86-based PC** to run applications that only run on such platform;
+- **NAS** for shared storage;
+- **Kubernetes** for containers orchestration across nodes and platforms;
+- **MySQL** to store the operational and configuration state of the cluster, enabling multiple masters and higher availability;
+- **MetalLB** as network load balancer that integrates with standard network equipment;
+- **Traefik** as proxy and entrance point to configure access to services;
+- **Prometheus and Grafana** to collect metrics, visualize, and send alerts;
+- **UptimeRobot** to monitor services availability and send critical alerts;
+- **Ansible** to automate node management tasks;
+- **Lens** to easily observe and manage the Kubernetes cluster using a GUI;
+- **Kubectl** to manage the Kubernetes cluster using a CLI.
+
+![Components](/blog/assets/cluster/components.svg){: .image-center .img-thumbnail width="75%"}
+
+# Hardware
+Many different hardware options are available for every component, which demands careful analysis and comparison of specs, pros/cons, and balance with costs.
+Below you can find the list of **selected hardware components**, which are not the best ones, but just the ones that were selected at the time:
+
+- 4 x [Raspberry Pi 4 B 8GB Quad-core](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/)
+- 4 x [SanDisk Ultra 32GB](https://www.westerndigital.com/en-ie/products/memory-cards/sandisk-ultra-uhs-i-microsd#SDSQUA4-032G-GN6MA)
+- 1 x [GeeekPi 6-Layer Acrylic Cluster](https://www.amazon.es/gp/product/B08614TZ7Q/ref=ewc_pr_img_1?smid=A187Y4UVM6ZA0X&psc=1) (nice to have)
+- 1 x [Anker PowerPort 10](https://www.anker.com/es/products/variant/powerport-10/A2133311)
+- 4 x [MaGeek USB 2.0 to USB-C cable](https://www.amazon.es/gp/product/B0732NPXQW/ref=ewc_pr_img_3?smid=A3IU3KLULTEZGD&psc=1)
+- 1 x [Minix NEO N42C-4 PLUS](https://minix.com.hk/products/neo-n42c-4)
+- 1 x [Linksys Switch LGS116-EU](https://www.linksys.com/us/business-network-switches/linksys-lgs116-16-port-business-desktop-gigabit-switch/p/p-lgs116/)
+- 6 x [NanoCable Ethernet RJ45 Cat.5e](https://www.amazon.es/NANOCABLE-10-20-0100-Ethernet-Cat-5e-latiguillo/dp/B00CI2WNDK/ref=sr_1_9?__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=4OL8LI3XWK5R&dchild=1&keywords=ethernet%2B5e&qid=1619859062&sprefix=ethernet%2B5%2Caps%2C195&sr=8-9&th=1)
+- 1 x [NAS Synology DS920+](https://www.synology.com/en-uk/products/DS920+)
+- 3 x [HDD Seagate IronWolf 4TB](https://www.seagate.com/products/nas-drives/ironwolf-hard-drive/)
+- 1 x [UPS CyberPower BR700ELCD](https://www.cyberpower.com/global/en/product/sku/br700elcd) (nice to have)
+
+Important to mention that the hardware list was not acquired in a single shot, most of it was bought during 2 years evolving the solution incrementally. For instance, for a long period, the "cluster" solution was just the Minix PC with Kubernetes installed. Making the math, I did an overall **investment of approximately €1800**.
+Below you can find a picture of the wired components.
+It does not look as cool as the cluster in the blog post header and definitely need some work to post it on [r/cableporn](https://www.reddit.com/r/cableporn/), but it is something :bowtie::
+![Cluster](/blog/assets/cluster/cluster.png){: .image-center .img-thumbnail}
+***Figure:** Cluster.*
+
+# NAS configuration
+The Synology NAS configuration is pretty much straightforward, just following the setup steps. Most important decision is related with the data storage virtualization approach. With 3 HDDs (Hard Disk Drives) of 4TB each, some replication is expected to avoid loosing data if a disk gets damaged for some reason. Yes, this already happened to me in the past and lost all services' configurations. Synology NAS provides several options with replication in mind:
+- **RAID 1**: same data is mirrored to all HDDs. In this case: 4TB usable, 8TB for replication;
+- **RAID 5**: data is striped across multiple disks with a parity check bit to the data. If one drive fails, the parity check bit will ensure data integrity. In this case: 8TB usable, 4TB for replication;
+- **SHR**: allows to protect data from 1 lost HDD. In this case: 8TB usable, 4TB for replication.
+
+RAID 5 and SHR both protect data from 1 damaged HDD. Of course, if 2 HDDs are lost at the same time, this means that some data will be lost.
+Since SHR allows combining hard disks of different sizes, using it will not create constraints for the 4th HDD in the future.
+
+# Nodes configuration
+- OS installation
+  - Ubuntu server
+- Static IPs
+- SSH configuration
+
+## How to keep nodes updated? 
+To keep the node's OS updated with the latest security updates, it would be great to have a tool that helps to achieve that without much manual effort.
+[Ansible](https://github.com/ansible/ansible) is an automation tool that "handles configuration management, application deployment, cloud provisioning, ad-hoc task execution, network automation, and multi-node orchestration", making complex or tedious tasks simple. Ansible can be installed using [Homebrew](https://brew.sh) on the Mac:
+
+```bash
+brew install ansible
+```
+
+Using ansible requires at least two different artifacts: inventory and job definition.
+First of all, we need to inventory
+
+`hosts` file
+```conf
+[all:vars]
+ansible_user='david'
+ansible_sudo_pass=<password>
+ansible_become=yes
+ansible_become_method=sudo
+ansible_python_interpreter='/usr/bin/env python3'
+ 
+
+[servers]
+minix ansible_host=192.168.1.80 ansible_ssh_private_key_file=/home/david/.ssh/id_rsa.pub
+rpi81 ansible_host=192.168.1.81 ansible_ssh_private_key_file=/home/david/.ssh/id_rsa.pub
+rpi82 ansible_host=192.168.1.82 ansible_ssh_private_key_file=/home/david/.ssh/id_rsa.pub
+rpi83 ansible_host=192.168.1.83 ansible_ssh_private_key_file=/home/david/.ssh/id_rsa.pub
+rpi84 ansible_host=192.168.1.84 ansible_ssh_private_key_file=/home/david/.ssh/id_rsa.pub
+```
+
+`update.yaml`
+
+```yaml
+- hosts: servers
+  become: true
+  become_user: root
+  serial: 1
+  tasks:
+    - name: Update apt repo and cache on all Debian/Ubuntu boxes
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+    - name: Upgrade all packages on servers
+      apt: upgrade=dist force_apt_get=yes
+
+    - name: Check if a reboot is needed on all servers
+      register: reboot_required_file
+      stat: path=/var/run/reboot-required get_md5=no
+
+    - name: Reboot the box if kernel updated
+      reboot:
+        msg: "Reboot initiated by Ansible for kernel updates"
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: uptime
+      when: reboot_required_file.stat.exists
+```
+
+`ansible-playbook -i ansible/hosts ansible/update.yaml`
+
+Output:
+```bash
+PLAY [servers] ************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************
+ok: [minix]
+
+TASK [Update apt repo and cache on all Debian/Ubuntu boxes] ***************************************************************************
+ok: [minix]
+
+TASK [Upgrade all packages on servers] ************************************************************************************************
+changed: [minix]
+
+TASK [Check if a reboot is needed on all servers] *************************************************************************************
+ok: [minix]
+
+TASK [Reboot the box if kernel updated] ***********************************************************************************************
+changed: [minix]
+
+...
+
+minix               : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+rpi81               : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+rpi82               : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+rpi83               : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+rpi84               : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+**Boom!** All nodes updated and rebooted with a single command.
+However, the availability of k8s services is affected, which can be further improved by extending the ansible-playbook to cordon and drain k8s nodes before restarting them. Additionally, [AWX Operator](https://github.com/ansible/awx-operator) can be used to manage inventory and schedule ansible jobs, so that no manual interaction is needed to keep nodes updated. Maybe this is a topic for a blog post in the future :wink:.
+
+# How to install Kubernetes?
+
+[Kubernetes](https://kubernetes.io) is the current standard solution for containers orchestration, allowing to easily deploy and manage large-scale applications in the cloud with high scalability, availability and automation level. To know more about Kubernetes architecture and components, please check [one of the previous blog posts](https://hands-on-tech.github.io/2020/03/15/k8s-jenkins-example.html#kubernetes).
+
+There are several options available that make the process of installing Kubernetes straightforward, since installing and configuring every single component can be a time-consuming task. Special emphasis to [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm), [kops](https://github.com/kubernetes/kops), [minikube](https://github.com/kubernetes/minikube) and [k3s](https://k3s.io), which are continuously supported and updated by the open-source community.
+
+Considering its simplicity and lightweight characteristics, decided to use k3s with [containerd](https://containerd.io) as the container runtime, which is suitable for limited-resource computing environments.
+
+[Several options](https://rancher.com/docs/k3s/latest/en/installation/datastore/) to work as a datastore:
+- etcd
+- 
+
+- AWS Free Tier MySQL database for K8s
+- Kubernetes installation (suggest k3sup)
+- Continuous update
+
+
+kubectl apply -f https://raw.githubusercontent.com/rancher/system-upgrade-controller/v0.8.1/manifests/system-upgrade-controller.yaml
+
+k apply -f k3s-upgrade.yml
+
+# Load Balancer
+[MetalLB](https://metallb.universe.tf)
+
+```yaml
+configInline:
+  address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 192.168.1.230-192.168.1.250
+```
+
+```BASH
+helm install metallb stable/metallb --namespace kube-system --values metallb.values.yml
+```
+
+# External access
+Dynamic DNS
+Configure router
+
+# Proxy
+- Traefik 2 with Helm
+- Let's Encrypt certs
+
+acme could not be used to have multiple replicas of Traefik running.
+
+# Telemetry
+- Prometheus
+- Grafana
+
+![Grafana](/blog/assets/cluster/grafana.png){: .image-center .img-thumbnail}
+***Figure:** Grafana.*
+
+# Management
+Lens
+![Lens](/blog/assets/cluster/lens.png){: .image-center .img-thumbnail}
+***Figure:** Lens.*
+
+# Monitoring
+- Uptime Robot
+
+![Uptime](/blog/assets/cluster/uptime.png){: .image-center .img-thumbnail width="65%"}
+
+# Conclusion
+
+**This is it!** The beginning of my and your k8s cluster
+
+![GIF](/blog/assets/cluster/clean.gif){: .image-center}
+
+Please remember that your comments and suggestions are more than welcome. 
+
+**Let's containerize all the things! :sunglasses: :muscle:** 
+
+

@@ -15,7 +15,7 @@ Sample project taking advantage of Kafka messages streaming communication platfo
 - 1 data producer sending random numbers in textual format;
 - 3 different data consumers using Kafka, Spark and Flink to count word occurrences.
 
-**Source code is available on [Github](https://github.com/hands-on-tech/kafka-spark-flink-example){:target="_blank"}** with detailed documentation on how to build and run the different software components using Docker.
+**Source code is available on [Github](https://github.com/davidcampos/kafka-spark-flink-example){:target="_blank"}** with detailed documentation on how to build and run the different software components using Docker.
 
 # Goal
 The main goal of this sample project is to mimic the streaming communication of nowadays large-scale solutions. An infrastructure is required to enable communication between components generating data sent to a centralized infrastructure. Such data is later consumed by other components with different purposes.
@@ -32,7 +32,7 @@ The following architecture is proposed, which contains the following components:
 - **Spark Consumer**: count work occurrences using Spark;
 - **Flink Consumer**: count work occurrences using Flink.
 
-![Architecture](/assets/kafka-spark-flink-example/architecture.svg){: .image-center}
+![Architecture](/blog/assets/kafka-spark-flink-example/architecture.svg){: .image-center}
 ***Figure:** Illustration of the implementation architecture of the example project.*
 
 Such infrastructure will run on top of **[Docker](https://www.docker.com){:target="_blank"}**, which simplifies the orchestration and setup processes. If we would like to scale-up the example, we can deploy it in a large-scale Docker-based orchestration platform, such as [Docker Swarm](https://docs.docker.com/engine/swarm){:target="_blank"} and [Kubernetes](https://kubernetes.io){:target="_blank"}.
@@ -44,7 +44,7 @@ Additionally, the following technologies are also used:
 # Kafka
 [Kafka](https://kafka.apache.org){:target="_blank"} is becoming the *de-facto* standard messaging platform, enabling large-scale communication between software components producing and consuming streams of data for different purposes. It was originally built at LinkedIn and is currently part of the Apache Software Foundation. The following Figure illustrates the architecture of solutions using Kafka, with multiple components generating data that is consumed by different consumers for different purposes, making Kafka the communication bridge between them.
 
-![Kafka](/assets/kafka-spark-flink-example/kafka.png){: .image-center}
+![Kafka](/blog/assets/kafka-spark-flink-example/kafka.png){: .image-center}
 ***Figure:** Illustration of Kafka capabilities as a message broker between heterogeneous producers and consumers. Source [https://kafka.apache.org](https://kafka.apache.org).*
 
 [Hundreds of companies](https://cwiki.apache.org/confluence/display/KAFKA/Powered+By){:target="_blank"} already take advantage of Kafka to provide their services, such as Oracle, LinkedIn, Mozilla and Netflix. As a result, it is being used in many different real-life use cases for [different purposes](https://kafka.apache.org/uses){:target="_blank"}, such as messaging, website activity tracking, metrics collection, logs aggregation, stream processing and event sourcing.
@@ -64,7 +64,7 @@ The figure below illustrates the relation between the aforementioned Kafka conce
 Considering the example illustrated in the figure, since Group A has two consumers, each consumer reads records from two different partitions. On the other hand, since Group B has four consumers, each consumer reads records from a single partition only.
 
 
-![Consumers](/assets/kafka-spark-flink-example/kafka-consumer-group.svg){: .image-center}
+![Consumers](/blog/assets/kafka-spark-flink-example/kafka-consumer-group.svg){: .image-center}
 ***Figure:** Relation between Kafka producers, topics, partitions, consumers and consumer groups.*
 
 
@@ -160,7 +160,7 @@ Creating kafka-spark-flink-example_kafka_1         ... done
 
 After starting the containers, visit [http://localhost:9000](http://localhost:9000){:target="_blank"} to access the Kafka Manager, which should be similar to the one presented in the figure below:
 
-![Kafka Manager](/assets/kafka-spark-flink-example/kafka-manager.png){: .image-center .img-thumbnail}
+![Kafka Manager](/blog/assets/kafka-spark-flink-example/kafka-manager.png){: .image-center .img-thumbnail}
 ***Figure:** Kafka Manager interface to manage a topic and get operation feedback.*
 
 Now that Kafka is running, we are able to start developing and testing the code as soon as we develop it, sending messages and check if they are properly delivered. A single project will be created for the producer and the several consumers, varying the execution goal with environment variables. In fact, all configurations will be provided as environment variables, which simplifies the configuration process when executing Docker containers.
@@ -188,7 +188,7 @@ public class Commons {
 # Topic
 In this example each consumer has its specific group associated, which means that **all messages will be delivered to all consumers**. Since it is **not allowed to have multiple consumers reading messages from the same partition**, running multiple containers for the same consumer and consumer group will result in only one consumer receiving the messages. For instance, if we run 3 containers for the Kafka consumer, only one of them will receive the messages.
 
-![Consumers](/assets/kafka-spark-flink-example/consumers.svg){: .image-center}
+![Consumers](/blog/assets/kafka-spark-flink-example/consumers.svg){: .image-center}
 ***Figure:** Illustration of the topic partition and relation with consumer groups and respective consumers.*
 
 
@@ -857,7 +857,7 @@ Time: 1541082315000 ms
 Additionally, you can also check the **Spark UI interface** available at [http://localhost:4040](http://localhost:4040){:target="_blank"}. Such web-based tool provides relevant information for monitoring and instrumentation, with detailed information about the jobs executed, elapsed time, memory usage, among others.
 
 
-![Spark Interface](/assets/kafka-spark-flink-example/spark.png){: .image-center .img-thumbnail}
+![Spark Interface](/blog/assets/kafka-spark-flink-example/spark.png){: .image-center .img-thumbnail}
 ***Figure:** Spark interface to check active jobs and respective status.*
 
 ## Flink consumer
@@ -884,7 +884,7 @@ Since Flink is a timeseries-based approach it reacts to every message received. 
 # We did it!
 It is done and working properly! The producer is sending the messages to Kafka and all consumers are receiving and processing the messages, showing the number of occurrences for each word.
 
-![GIF](/assets/kafka-spark-flink-example/yes.gif){: .image-center}
+![GIF](/blog/assets/kafka-spark-flink-example/yes.gif){: .image-center}
 
 # Scale it up
 Just one more thing. What about increasing the number of messages being sent? As a first approach, we can change the time interval between requests. By default, this value is set to 100ms, which means that a message is sent every 100ms. To change this behaviour, set the `EXAMPLE_PRODUCER_INTERVAL` environment variable to specify the producer time interval between requests to Kafka. Thus, changing the `docker-compose.yml` accordingly (line 10), we can send a word to Kafka every 10ms.

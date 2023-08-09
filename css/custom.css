@@ -20,10 +20,6 @@ h2 {
     font-size: 1.7rem;
 }
 
-p a {
-    text-decoration: underline;
-}
-
 .post-preview {
     margin: 50px 0;
 }
@@ -37,7 +33,7 @@ p a {
 }
 
 .copyright a:hover {
-    color: #0085A1;
+    color: #e74c3c;
 }
 
 .comments {
@@ -106,4 +102,55 @@ div + p > em {
 div + p > em {
     padding-top: 0px;
     margin-top: -25px;
+}
+
+/* Custom organge */
+.post-preview > .post-meta > a:focus, .post-preview > .post-meta > a:hover {
+    color: #e74c3c;
+}
+
+.post-preview > a:focus, .post-preview > a:hover {
+    color: #e74c3c;
+}
+
+.post-preview h2, .post-preview h3, .post-heading h1, .post-heading h2 {
+    text-align: left;
+}
+
+::selection {
+    background: #e74c3c;
+}
+
+a, p a {
+    text-decoration: none;
+    color: #e74c3c;
+}
+
+a:hover, a:focus {
+    color: #BF4032;
+    text-decoration: underline;
+}
+
+.btn-primary {
+    background-color: #e74c3c;
+    border-color: #BF4032;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #BF4032 !important;
+    border-color: #BF4032 !important;
+}
+
+/* */
+
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, #mainNav {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+header.masthead .page-heading, header.masthead .post-heading, header.masthead .site-heading {
+    padding: 80px 0;
+}
+
+header.masthead {
+    margin-bottom: 10px;
 }

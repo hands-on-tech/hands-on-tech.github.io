@@ -14,7 +14,7 @@ math: true
 # TL;DR
 Use JPA libraries to communicate with Apache Cassandra comparing Achilles, Datastax and Kundera. The last one presents the better processing speeds with lower computational resources consumption.
 
-**Source code is available on [Github](https://github.com/hands-on-tech/cassandra-jpa-example){:target="_blank"}** with detailed documentation on how to build and run the tests using Docker.
+**Source code is available on [Github](https://github.com/davidcampos/cassandra-jpa-example){:target="_blank"}** with detailed documentation on how to build and run the tests using Docker.
 
 # Goal
 With the overwhelming amounts of data being generated in nowadays technological solutions, one of the main challenges is to find the best solutions to properly store, manage and serve huge amounts of data. Apache Cassandra is one of such solutions, which is a NoSQL database designed for large-scale data management with high availability, consistency and performance. When performing millions of operations per day on top of such databases, every millisecond counts with significant impact on overall system behavior.
@@ -26,7 +26,7 @@ With the overwhelming amounts of data being generated in nowadays technological 
 - **Kundera**: JPA library to communicate with Cassandra;
 - **Achilles**: JPA library to communicate with Cassandra.
 
-![Architecture](/assets/cassandra-jpa-example/architecture.svg){: .image-center}
+![Architecture](/blog/assets/cassandra-jpa-example/architecture.svg){: .image-center}
 ***Figure:** Illustration of the implementation architecture of Cassandra and JPA clients.*
 
 The architecture is implemented using following technologies:
@@ -39,7 +39,7 @@ The architecture is implemented using following technologies:
 [Apache Cassandra](http://cassandra.apache.org){:target="_blank"} is an open-source and distributed column-based database, designed for large-scale applications and to handle large amounts of data with high availability with no single point of failure. It was initially developed at Facebook and is currently part of the Apache Software Foundation. 
 Nowadays, Apache Cassandra is one of the most used NoSQL databases, as we can see in the Figure below:
 
-![NoSQL Popularity](/assets/cassandra-jpa-example/nosql_popularity.png){: .image-center .image-rounded-corners .image-width-justify-70}
+![NoSQL Popularity](/blog/assets/cassandra-jpa-example/nosql_popularity.png){: .image-center .image-rounded-corners .image-width-justify-70}
 ***Figure:** Popularity of several NoSQL databases from [DB-Engines](https://db-engines.com){:target="_blank"}.*
 
 When comparing Cassandra with other NoSQL databases, various studies already present a detailed evaluation and comparison, such as:
@@ -95,7 +95,7 @@ Taking the previous topics into consideration, the following testing guidelines 
 
 A simplistic approach will be followed for the data definition. The following Figure illustrates the `User` class that will be used during the tests, which contains only four textual attributes (unique identifier, first name, last name and city). In summary, everytime an operation is performed, an instance of the User class is being written, read, updated or deleted on Cassandra.
 
-![User](/assets/cassandra-jpa-example/user.svg){: .image-center}
+![User](/blog/assets/cassandra-jpa-example/user.svg){: .image-center}
 ***Figure:** Illustration of the simple `User` class and respective attributes.*
 
 The following pseudocode presents the algorithm applied to collect the processing times for each library and operation types, using a set of users with different attributes. For each library and test cycle, each operation type (write, read, update and delete) will be executed $$O$$ times (TOTAL_OPERATIONS), which is repeated $$R$$ times (TOTAL_REPETITIONS) to calculate the average of total processing times. If multiple cycles are defined, the previous process is repeated $$C$$ times (TOTAL_CYCLES) to collect average values of all repetitions. In the end, average times of all cycles and repetitions are collected per library and operation type. That way, all tasks are repeated to make sure external interferences have no impact on compared processing times.
@@ -129,17 +129,17 @@ If you would like to check the results right away, you can jump to the [Results]
 # Implementation
 The Java application implementation was performed to minimize code replication as much as possible. However, different `User` classes are required to provide the specific Java annotations. Thus, the following Figure illustrates how the `User` interface is used to make sure different `User` classes implement the required methods.
 
-![Architecture](/assets/cassandra-jpa-example/code_user.svg){: .image-center}
+![Architecture](/blog/assets/cassandra-jpa-example/code_user.svg){: .image-center}
 ***Figure:** Illustration of the `User` implementation.*
 
 To minimize complexity and to make sure that the different tests have the same core behavior, the `Run` abstract class implements methods to run write, read, update and delete tests using the configured number of operations, repetitions and cycles. That way, specific run classes only have to implement core methods to perform atomic operations using each JPA library. The following Figure illustrates such implementation details.
 
-![Architecture](/assets/cassandra-jpa-example/code_run.svg){: .image-center}
+![Architecture](/blog/assets/cassandra-jpa-example/code_run.svg){: .image-center}
 ***Figure:** Illustration of the `Run` implementation.*
 
 Finally, the main application just needs to take advantage of the `run()` methods to execute all the designed tests, as presented in the following Figure.
 
-![Architecture](/assets/cassandra-jpa-example/code_main.svg){: .image-center}
+![Architecture](/blog/assets/cassandra-jpa-example/code_main.svg){: .image-center}
 ***Figure:** Illustration of the `Main` implementation.*
 
 ## Cassandra Server
@@ -436,7 +436,7 @@ public class UserAchilles implements User {
 
 After the definition of the entity classes, Achilles requires to build the project to automatically generate the manager classes that allow to interact with Cassandra. If any change is performed in any entity class, the project needs to be built again to generate the manager classes again. To enable source code auto-complete of such classes on IntelliJ IDEA, the generated classes need to be added as sources of the project, as we can see in the Figure below.
 
-![Architecture](/assets/cassandra-jpa-example/achilles_source_configurations.png){: .image-center .image-rounded-corners .image-width-justify-70}
+![Architecture](/blog/assets/cassandra-jpa-example/achilles_source_configurations.png){: .image-center .image-rounded-corners .image-width-justify-70}
 ***Figure:** Project sources configuration on IntelliJ IDEA.*
 
 The following code snippet presents how to perform connect, write, read, update and delete operations using the `UserAchilles_Manager` class generated by Achilles.
@@ -715,7 +715,7 @@ Dec 15 16:53:56 	1.117GiB / 1.952GiB	57.23%	4.69%
 ## Host specifications
 The execution of the previously described tests is performed in a computer with the following Hardware and Software specifications:
 
-![Specifications](/assets/cassandra-jpa-example/specifications.png){: .image-center .image-rounded-corners}
+![Specifications](/blog/assets/cassandra-jpa-example/specifications.png){: .image-center .image-rounded-corners}
 ***Figure:** Host specifications.*
 {% endcomment %}
 
@@ -738,21 +738,21 @@ Overall, delete operations are the fastest ones, followed by the write tasks. As
 When comparing the used JPA libraries, **Kundera presents the fastest performance times in write, read, update and delete operation types**. On the other hand, Achilles presents the worst results. Comparing the best with the worst library, for 10K operations we have an average difference of 3.2 seconds. If we extrapolate for **10M operations**, this execution **time difference can reach almost 1 hour**.
 In average, Kundera performance is 28% better than Achilles, 19% better than Datastax, and 24% better than Native. It is quite interesting to see that Datastax ORM presents similar or better time measurements than Datastax Native. Keep in mind that the low complexity of the `User` data is not adding significant complexity on top of native and ORM solutions.
 
-![Comparison of Cassandra JPA libraries time](/assets/cassandra-jpa-example/results_time.png){: .image-center .image-width-justify-90}
+![Comparison of Cassandra JPA libraries time](/blog/assets/cassandra-jpa-example/results_time.png){: .image-center .image-width-justify-90}
 ***Figure:** Comparison of Cassandra JPA libraries processing time for the different operation types.*
 
 Jumping into the resources usage analysis, the Figure below presents CPU and RAM consumption of the Java application and Cassandra while performing the tests. Overall, **Kundera presents significant lower CPU usages on both Cassandra and Java application**. Regarding RAM, there is no significant difference or impact on Cassandra when all JPA libraries are being used. However, Kundera and Achilles seem to use more RAM than Datastax libraries.
 For instance, on the 10K operations test, Kundera presents up to 78% less CPU usage on Cassandra, and up to 41% less CPU consumption on Java application. Regarding RAM usage, Kundera and Achilles use more 7% of RAM than Datastax libraries.
 Such differences might related with the fact that **Kundera holds operations on RAM before submitting them to Cassandra**, which has a minor impact on RAM but a very significant impact on low CPU consumption both on client and server applications. However, it is still open to clarify if a higher complexity on the stored data will have a higher impact on RAM usage.
 
-![Comparison of Cassandra JPA libraries resources](/assets/cassandra-jpa-example/results_resources.png){: .image-center .image-width-justify-90}
+![Comparison of Cassandra JPA libraries resources](/blog/assets/cassandra-jpa-example/results_resources.png){: .image-center .image-width-justify-90}
 ***Figure:** Comparison of Cassandra JPA libraries resources usage.*
 
 # Conclusion
 
 In conclusion, Kundera presents up to 28% faster performance results with significant lower CPU impact on both client application and Cassandra server. Such interesting results are significant and should be considered while designing your next Cassandra and Java project, in order to reduce resources usage and increase processing throughput. Nevertheless, do not forget to evaluate the behavior of Kundera with your specific data and entities characteristics, requirements and complexity.
 
-![Nice](/assets/cassandra-jpa-example/nice.gif){: .image-center}
+![Nice](/blog/assets/cassandra-jpa-example/nice.gif){: .image-center}
 
 Please tell me if you had different results using this or other JPA libraries. Your comments, suggestions and contributions are more than welcome. 
 

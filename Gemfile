@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "github-pages", 209, group: :jekyll_plugins
+gem "github-pages", 218, group: :jekyll_plugins
 # Hello! This is where you manage which Jekyll version is used to run.
 # When you want to use a different version, change it below, save the
 # file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
@@ -10,10 +10,10 @@ gem "github-pages", 209, group: :jekyll_plugins
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
 gem "jekyll", "~> 3.9.0"
-gem "jekyll-seo-tag", "~> 2.6.1"
+gem "jekyll-seo-tag", "~> 2.7.1"
 
-gem "rouge", "~> 3.23.0"
-gem "kramdown", "~> 2.3.0"
+gem "rouge", "~> 3.26.0"
+gem "kramdown", "~> 2.3.1"
 gem 'jemoji', "~> 0.12.0"
 
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
@@ -34,5 +34,5 @@ end
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Performance-booster for watching directories on Windows
-gem "wdm", "~> 0.1.0" if Gem.win_platform?
+gem "wdm", "~> 0.1.1" if Gem.win_platform?
 

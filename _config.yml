@@ -13,20 +13,20 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Hands on Tech
-author: Hands on Tech
-#email: david.marques.campos@gmail.com
-description: Making high-end technology easy to understand.
+title: David Campos - Blog
+author: David Campos
+email: me@davidcampos.org
+description: about technology, engineering and leadership.
 
-baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https://hands-on-tech.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-#twitter_username: davidcmps
-github_username:  hands-on-tech
-#facebook_username: david.cmps
-#linkedin_username: davidmcampos
+baseurl: "/blog" # the subpath of your site, e.g. /blog
+url: "https://davidcampos.org" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: davidcmps
+github_username:  davidcampos
+facebook_username: david.cmps
+linkedin_username: davidmcampos
 
 # Build settings
-remote_theme: BlackrockDigital/startbootstrap-clean-blog-jekyll
+remote_theme: StartBootstrap/startbootstrap-clean-blog-jekyll
 
 markdown: kramdown
 kramdown:
