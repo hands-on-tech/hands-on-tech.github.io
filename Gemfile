@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "github-pages", 218, group: :jekyll_plugins
+gem "github-pages", 228, group: :jekyll_plugins
 # Hello! This is where you manage which Jekyll version is used to run.
 # When you want to use a different version, change it below, save the
 # file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
@@ -9,8 +9,9 @@ gem "github-pages", 218, group: :jekyll_plugins
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "~> 3.9.0"
-gem "jekyll-seo-tag", "~> 2.7.1"
+gem "jekyll", "~> 3.9.3"
+gem "jekyll-seo-tag", "~> 2.8.0"
+gem "webrick", "~> 1.8.1"
 
 gem "rouge", "~> 3.26.0"
 gem "kramdown", "~> 2.3.1"
